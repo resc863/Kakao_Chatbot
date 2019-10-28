@@ -1,6 +1,7 @@
 from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
 import urllib
+import requests, re
 import json
 import datetime
 from datetime import date
@@ -64,25 +65,24 @@ def print_get_meal(local_date, local_weekday):
                 },
             }
         elif len(d_diet) == 1:
-            lunch = local_date + " 중식\n" + l_diet
+            lunch = local_date + " 중식\n\n" + l_diet
             return lunch
         else:
-            lunch = local_date + " 중식\n" + l_diet
-            dinner = local_date + " 석식\n" + d_diet
+            lunch = local_date + " 중식\n\n" + l_diet + "\n"
+            dinner = local_date + " 석식\n\n" + d_diet
             meal = lunch + dinner
             return meal
 
 today = date.today()
-print(today)
-today = today.replace("-", ".")
+today = str(today).replace("-", ".")
 s = today.replace('.', ', ')
     #한자리수 달인 경우를 해결하기위함
-        if int(s[6:8]) < 10:
-            s = s.replace(s[6:8], s[7:8])
-    ss = "datetime.datetime(" + s + ").weekday()"
-    try:
-        whatday = eval(ss)
-    except:
-        print("Error")
+if int(s[6:8]) < 10:
+    s = s.replace(s[6:8], s[7:8])
+ss = "datetime.datetime(" + s + ").weekday()"
+try:
+    whatday = eval(ss)
+except:
+    print("Error")
 meal = print_get_meal(today, whatday)
 print(meal)
