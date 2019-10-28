@@ -70,11 +70,11 @@ def print_get_meal(local_date, local_weekday):
                 },
             }
         elif len(d_diet) == 1:
-            lunch = local_date + " 중식\n" + l_diet
+            lunch = local_date + " 중식\n\n" + l_diet
             return lunch
         else:
-            lunch = local_date + " 중식\n" + l_diet
-            dinner = local_date + " 석식\n" + d_diet
+            lunch = local_date + " 중식\n\n" + l_diet + "\n"
+            dinner = local_date + " 석식\n\n" + d_diet
             meal = lunch + dinner
             return meal
             
@@ -84,7 +84,7 @@ def handler(event, context):
     params = request_body['action']['params'] # action > params로 파라미터에 접근
     date_obj = json.loads(params['date']) # 날짜 엔티티를 적용했을 경우 date가 객체로 넘어오기 때문에 파싱
     date = date_obj["date"] # date 객체에서 "yyyy-mm-dd" 형식의 date 데이터 추출
-    date = date.replace("-", ".")
+    date = str(date).replace("-", ".")
 
     s = date.replace('.', ', ') # 2017, 11, 21
 
