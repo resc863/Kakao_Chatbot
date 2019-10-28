@@ -9,16 +9,23 @@ def stid(name,n):
     key = "0XeO7nbthbiRoMUkYGGah20%2BfXizwc0A6BfjrkL6qhh2%2Fsl8j9PzfSLGKnqR%2F1v%2F%2B6AunxntpLfoB3Ryd3OInQ%3D%3D"
     name = urllib.parse.quote(name)
     url = "http://61.43.246.153/openapi-data/service/busanBIMS2/busStop?serviceKey="+key+"&pageNo=1&numOfRows=10&bstopnm="+name
-    doc = urllib.request.urlopen(url)
+    try:
+        doc = urllib.request.urlopen(url)
+    except:
+        print("Error!")
+        return None
     xml1 = BeautifulSoup(doc,"html.parser")
     stopid2 = xml1.findAll('bstopid',string=True)
 
-    if n == 1:
-        stopid1 = str(stopid2[0])
-        stopid = stopid1[9:18]
-    elif n == 2:
-        stopid1 = str(stopid2[1])
-        stopid = stopid1[9:18]
+    try:
+        if n == 1:
+            stopid1 = str(stopid2[0])
+            stopid = stopid1[9:18]
+        elif n == 2:
+            stopid1 = str(stopid2[1])
+            stopid = stopid1[9:18]
+    except:
+        return None
     return stopid
 
 def lineid(lineno):    
@@ -57,14 +64,23 @@ def nextstop(no, lineno):
             return nextstop
         
 def info(station):
+    id1 = stid(station, 1)
+    id2 = stid(station, 2)
+
+    if id1 == None or id2 == None:
+        return "정보가 없습니다."
     key = "0XeO7nbthbiRoMUkYGGah20%2BfXizwc0A6BfjrkL6qhh2%2Fsl8j9PzfSLGKnqR%2F1v%2F%2B6AunxntpLfoB3Ryd3OInQ%3D%3D"
-    url = "http://61.43.246.153/openapi-data/service/busanBIMS2/stopArr?serviceKey="+key+"&bstopid="+stid(station, 1)
-    url1 = "http://61.43.246.153/openapi-data/service/busanBIMS2/stopArr?serviceKey="+key+"&bstopid="+stid(station, 2)
+    url = "http://61.43.246.153/openapi-data/service/busanBIMS2/stopArr?serviceKey="+key+"&bstopid="+id1
+    url1 = "http://61.43.246.153/openapi-data/service/busanBIMS2/stopArr?serviceKey="+key+"&bstopid="+id2
     
-    inf1 = urllib.request.urlopen(url)
+    try:
+        inf1 = urllib.request.urlopen(url)
+    except:
+        print("Error!")
+        return None
     info1 = BeautifulSoup(inf1, "html.parser")
 
-    print("*"*20)
+    info="*"*20+"\n"
     
     for item in info1.findAll('item'):
         
@@ -99,17 +115,17 @@ def info(station):
         else:
             nextstop2 = nextstop1
         
-        print("버스 번호:",lineno)
-        print("도착 시간:",min1)
-        print("남은 정류소 수:",station1)
-        print("다음 정류장: "+nextstop2)
-        print("*"*20)
+        info = info+"버스 번호:" +lineno +"\n"+"도착 시간:"+min1+"분"+"\n"+"남은 정류소 수:"+station1+"\n"+"다음 정류장: "+nextstop2+"\n"+"*"*20+"\n"
 
-    inf2 = urllib.request.urlopen(url1)
+    try:
+        inf2 = urllib.request.urlopen(url1)
+    except:
+        print("Error!")
+        return None
     info2 = BeautifulSoup(inf2, "html.parser")
 
-    print("="*30)
-    print("*"*20)
+    info=info + "="*30+"\n"
+    info=info + "*"*20+"\n"
 
     for item in info2.findAll('item'):
         
@@ -144,12 +160,11 @@ def info(station):
         else:
             nextstop2 = nextstop1
 
-        print("버스 번호:",item.lineno.string)
-        print("도착 시간:",min1)
-        print("남은 정류소 수:",station1)
-        print("다음 정류장: "+nextstop2)
-        print("*"*20)
+        info = info+"버스 번호:" +lineno +"\n"+"도착 시간:"+min1+"\n"+"남은 정류소 수:"+station1+"\n"+"다음 정류장: "+nextstop2+"\n"+"*"*20+"\n"
         
-    return None
+    return info
 
-info('동부아파트')
+q = input("버스 정류장 입력: ")
+print("검색중...")
+a = info(q)
+print(a)
