@@ -3,7 +3,6 @@ import parser
 import urllib
 import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
-import youtube_dl
 
 def stid(name,n):
     key = "0XeO7nbthbiRoMUkYGGah20%2BfXizwc0A6BfjrkL6qhh2%2Fsl8j9PzfSLGKnqR%2F1v%2F%2B6AunxntpLfoB3Ryd3OInQ%3D%3D"
