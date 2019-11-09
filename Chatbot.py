@@ -78,13 +78,6 @@ def print_get_meal(local_date, local_weekday):
             meal = lunch + dinner
             return meal
             
-
-def handler(event, context):
-    
-
-    
-
-
 @app.route('/meal', methods=['POST'])
 def meal():
     req = request.get_json()
