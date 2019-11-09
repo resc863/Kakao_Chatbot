@@ -111,7 +111,7 @@ def meal():
     result = {
         "version": "2.0",
         "data": {
-            "menu": meal
+            "meal": meal
         }
     }
     
