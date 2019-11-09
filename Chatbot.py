@@ -58,7 +58,7 @@ def print_get_meal(local_date, local_weekday):
             result = {
                 "version": "2.0",
                 "data": {
-                    "menu": "급식이 없습니다."
+                    "meal": "급식이 없습니다."
                 }
             }
             
