@@ -58,7 +58,7 @@ def print_get_meal(local_date, local_weekday):
             result = {
                 "version": "2.0",
                 "data": {
-                    "menu": "급식이 없습니다."
+                    "meal": "급식이 없습니다."
                 }
             }
             
@@ -78,9 +78,10 @@ def print_get_meal(local_date, local_weekday):
             meal = lunch + dinner
             return meal
             
-
-def handler(event, context):
-    request_body = json.loads(event['body']) # request body 받음
+@app.route('/meal', methods=['POST'])
+def meal():
+    req = request.get_json()
+    request_body = json.loads(req['body']) # request body 받음
     params = request_body['action']['params'] # action > params로 파라미터에 접근
     date_obj = json.loads(params['date']) # 날짜 엔티티를 적용했을 경우 date가 객체로 넘어오기 때문에 파싱
     date = date_obj["date"] # date 객체에서 "yyyy-mm-dd" 형식의 date 데이터 추출
@@ -103,24 +104,18 @@ def handler(event, context):
     result = {
         "version": "2.0",
         "data": {
-            "menu": meal
+            "meal": meal
         }
     }
-
-    return {
+    
+    menu = {
         'statusCode': 200,
         'body': json.dumps(result),
         'headers': {
-        'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': '*',
         },
     }
-
-
-@app.route('/meal', methods=['POST'])
-def meal():
-    req = request.get_json()
-    menu = handler(req, )
-
+    
     return jsonify(menu)
 
 @app.route('/schedule', methods=['POST'])
@@ -165,10 +160,11 @@ def schedule():
         element = element+date+": "+alert+"\n"
 
     print(element)
+    
     result1 = {
         "version": "2.0",
         "data": {
-            "menu": element
+            "schedule": element
         }
     }
     result2 = {
