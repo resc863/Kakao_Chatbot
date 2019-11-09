@@ -171,7 +171,7 @@ def schedule():
     result1 = {
         "version": "2.0",
         "data": {
-            "menu": element
+            "schedule": element
         }
     }
     result2 = {
