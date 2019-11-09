@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
-from urllib.request import urlopen, Request
+from urllib.request import urlopen
 from bs4 import BeautifulSoup
-import urllib
+import urllib, requests, re
 import json
 import datetime
 from datetime import date
@@ -55,20 +55,9 @@ def print_get_meal(local_date, local_weekday):
         d_diet = get_diet(3, local_date, local_weekday)
 
         if len(l_diet) == 1:
-            result = {
-                "version": "2.0",
-                "data": {
-                    "meal": "급식이 없습니다."
-                }
-            }
+            result = "급식이 없습니다."
+            return result
             
-            return {
-                'statusCode': 200,
-                'body': json.dumps(result),
-                'headers': {
-                'Access-Control-Allow-Origin': '*',
-                },
-            }
         elif len(d_diet) == 1:
             lunch = local_date + " 중식\n\n" + l_diet
             return lunch
@@ -77,30 +66,44 @@ def print_get_meal(local_date, local_weekday):
             dinner = local_date + " 석식\n\n" + d_diet
             meal = lunch + dinner
             return meal
+        
+@app.route('/keyboard')
+def Keyboard():
+    dataSend = {
+    }
+    return jsonify(dataSend)
             
 @app.route('/meal', methods=['POST'])
 def meal():
-    req = request.get_json()
-    request_body = json.loads(req['body']) # request body 받음
+    request_body = request.get_json()  # request body 받음
     params = request_body['action']['params'] # action > params로 파라미터에 접근
-    date_obj = json.loads(params['date']) # 날짜 엔티티를 적용했을 경우 date가 객체로 넘어오기 때문에 파싱
-    date = date_obj["date"] # date 객체에서 "yyyy-mm-dd" 형식의 date 데이터 추출
-    date = str(date).replace("-", ".")
+    print(params)
+    date1 = json.loads(params['date'])
+    date1 = date1['date']
+    date2 = str(date1).replace("-", ".")
 
-    s = date.replace('.', ', ') # 2017, 11, 21
+    s = date2.replace('.', ', ') # 2017, 11, 21
 
         #한자리수 달인 경우를 해결하기위함
-        if int(s[6:8]) < 10:
-            s = s.replace(s[6:8], s[7:8])
+    if int(s[6:8]) < 10:
+        s = s.replace(s[6:8], s[7:8])
 
-        ss = "datetime.datetime(" + s + ").weekday()"
-        try:
-            whatday = eval(ss)
-        except:
-            return
+    ss = "datetime.datetime(" + s + ").weekday()"
+    try:
+        whatday = eval(ss)
+    except:
+        
+        result = {
+            "version": "2.0",
+            "data": {
+                "meal": "급식이 없습니다."
+            }
+        }
+        return jsonify(result)
     
-    meal = print_get_meal(date, whatday)
-
+    print(str(date1)+"\n"+str(whatday))
+    meal = print_get_meal(date2, whatday)
+    print(meal)
     result = {
         "version": "2.0",
         "data": {
@@ -108,19 +111,11 @@ def meal():
         }
     }
     
-    menu = {
-        'statusCode': 200,
-        'body': json.dumps(result),
-        'headers': {
-            'Access-Control-Allow-Origin': '*',
-        },
-    }
-    
-    return jsonify(menu)
+    return jsonify(result)
 
 @app.route('/schedule', methods=['POST'])
 def schedule():
-    today = date.today()
+    today = datetime.date.today()
 
     try:
         officeCode="stu.pen.go.kr" ## 교육청 코드
@@ -161,20 +156,14 @@ def schedule():
 
     print(element)
     
-    result1 = {
+    result = {
         "version": "2.0",
         "data": {
             "schedule": element
         }
     }
-    result2 = {
-        'statusCode': 200,
-        'body': json.dumps(result1),
-        'headers': {
-        'Access-Control-Allow-Origin': '*',
-        },
-    }
-    return jsonify(result2)
+    
+    return jsonify(result)
 
 
 
