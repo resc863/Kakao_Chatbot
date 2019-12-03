@@ -327,13 +327,11 @@ def weather():
 def meal():
     request_body = request.get_json()  # request body 받음
     params = request_body['action']['params'] # action > params로 파라미터에 접근
-    print(params)
-    date1 = json.loads(params['date'])
-    date1 = date1['date']
-    date2 = str(date1).replace("-", ".")
-
-    s = date2.replace('.', ', ') # 2017, 11, 21
-
+    today = date.today()
+    today1 = str(today).replace("-", ".")
+    s = today1.replace('.', ', ')
+    #한자리수 달인 경우를 해결하기위함
+    
         #한자리수 달인 경우를 해결하기위함
     if int(s[6:8]) < 10:
         s = s.replace(s[6:8], s[7:8])
@@ -351,7 +349,7 @@ def meal():
         }
         return jsonify(result)
     
-    print(str(date1)+"\n"+str(whatday))
+    print(str(today)+"\n"+str(whatday))
     meal = print_get_meal(date2, whatday)
     print(meal)
     result = {
