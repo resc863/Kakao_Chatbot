@@ -374,7 +374,7 @@ def weather():
 def meal():
     request_body = request.get_json()  # request body 받음
     params = request_body['action']['params'] # action > params로 파라미터에 접근
-    today = year+"-"+month+"-"+day
+    today = date.today()
     today = str(today).replace("-", ".")
     s = today.replace('.', ', ') #한자리수 달인 경우를 해결하기위함
 
