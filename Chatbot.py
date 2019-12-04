@@ -374,18 +374,13 @@ def weather():
 def meal():
     request_body = request.get_json()  # request body 받음
     params = request_body['action']['params'] # action > params로 파라미터에 접근
+    
     today = date.today()
     today = str(today).replace("-", ".")
-    s = today.replace('.', ', ') #한자리수 달인 경우를 해결하기위함
-
-    if int(s[6:8]) < 10:
-        s = s.replace(s[6:8], s[7:8])
-
-    ss = "datetime.datetime(" + s + ").weekday()"
-    try:
-        whatday = eval(ss)
-    except:
-        
+    
+    try : 
+      whatday = datetime.datetime.now().weekday()
+    except :
         result = {
             "version": "2.0",
             "data": {
