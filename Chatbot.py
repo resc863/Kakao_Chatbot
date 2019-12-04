@@ -92,32 +92,8 @@ def dayCal() :
   h=str(list(time.localtime(time.time()))[3])
   mi=str(list(time.localtime(time.time()))[4])
   cpy,cpm,cpd,cph,cpmi = copy(y),copy(m),copy(d),copy(h),copy(mi)
-
-  if int(h) >24 :
-    h = str(int(h)-24)
-    if m == '12' and d == '31' :
-      y = str(int(y)+1)
-      m = '1'
-      d = '1'
-    elif d == '31' :
-      if m == '1' or m == '3' or m == '5' or m == '7' or m == '8' or m == '10' :
-        m = str(int(m)+1)
-        d = '1'
-    elif d == '30' :
-      if m == '4' or m == '6' or m == '9' or m == '11' :
-        m = str(int(m)+1)
-        d = '1'
-    elif d == '29' :
-      if m == '2' and int(y)%4 == 0 :
-        m = '3'
-        d = '1'
-    elif d == '28' :
-      if m == '2' and int(y)%4 != 0 :
-        m = '3'
-        d = '1'
-    else :
-      d = str(int(d)+1)
-
+  
+  
   if h != '2' and h != '5' and h!= '8' and h!= '11' and h != '14' and h != '17' and h != '20' and h != '23' :
     a = int(h)%3
     h=str(int(h)-a-1)
@@ -281,41 +257,7 @@ def forecast() : #날씨 예보 파싱 함수
   p = apm+ft[:2]+':'+ft[2:]+' 예보\n\n최고 : '+tmx+'°C  최저 : '+tmn+'°C\n'+sky+pty+'\n'+t3h+'°C\n습도 : '+reh+'%\n강수확률 : '+pop+'%\n풍속 : '+wsd+'m/s'
  
   return p
-def repl(self) :
-  a = self.replace(' ', '')
-  return a
 
-def call(msg) : 
-  call = {'교무실' :'702-0692',
-          '행정실' : '702-0691',
-          '교무실팩스' : '702-0686', 
-          '행정실팩스' : '702-0694', 
-          '교무기획부' : '709-7621', 
-          '교육과정부' : '709-7631', 
-          '생활안전부' : '709-7650', 
-          '교육정보부' : '709-7650', 
-          '방과후교육부' : '709-7645', 
-          '진로교육부' : '709-7642', 
-          '인문사회부' : '709-7656', 
-          '자연과학부' : '709-7690', 
-          '예체능교육부' : '709-7615', 
-          '3학년교육부' : '709-7660', 
-          '2학년교육부' : '709-7623', 
-          '1학년교육부' : '709-7685', 
-          '행정실민원' : '7097605', 
-          '보건실' : '709-7653', 
-          '도서실' : '709-7687', 
-          '급식실' : '709-7608', '위클래스' : '709-7658'}
-
-  msg = str(msg)
-  k = repl(msg)
-  rand = random.random()
-  if k in call.keys() :
-    return k+'의 내선번호 : '+call[k]
-  elif k == '강태경' and int(rand*100) == 0 :
-    return '개발자의 이름'
-  else :
-    return '검색불가'
 
 @app.route('/keyboard')
 def Keyboard():
@@ -323,6 +265,72 @@ def Keyboard():
     }
     return jsonify(dataSend)
 
+@app.route('/next_meal', methods=['POST'])
+def next_meal():
+    request_body = request.get_json()  # request body 받음
+    params = request_body['action']['params'] # action > params로 파라미터에 접근
+
+    y,m,d,h,mi = dayCal()
+    if m == '12' and d == '31' :
+        y = str(int(y)+1)
+        m = '1'
+        d = '1'
+    elif d == '31' :
+        if m == '1' or m == '3' or m == '5' or m == '7' or m == '8' or m == '10' :
+            m = str(int(m)+1)
+            d = '1'
+    elif d == '30' :
+        if m == '4' or m == '6' or m == '9' or m == '11' :
+            m = str(int(m)+1)
+            d = '1'
+    elif d == '29' :
+        if m == '2' and int(y)%4 == 0 :
+            m = '3'
+            d = '1'
+    elif d == '28' :
+        if m == '2' and int(y)%4 != 0 :
+            m = '3'
+            d = '1'
+    else :
+        d = str(int(d)+1)
+    if int(h)<10 :
+        h = '0'+h
+    if int(m)<10 :
+        m = '0'+m
+    if int(d)<10 :
+        d = '0'+d
+    if int(mi)<10 :
+        mi = '0'+mi
+    tomorrow = y+'.'+m+'.'+d
+
+    try : 
+        whatday = time.localtime().tm_wday+1
+        if whatday == 7 :
+            whatday = 0
+    except :
+        result = {
+            "version": "2.0",
+            "data": {
+                "meal": "급식이 없습니다."
+            }
+        }
+        return jsonify(result)
+    print("\n")
+    print("검색중...")
+
+    meal = print_get_meal(tomorrow, whatday)
+
+    print("\n")
+    print(meal)
+    result = {
+        "version": "2.0",
+        "data": {
+            "meal": meal
+        }
+    }
+            
+                                 
+  
 @app.route('/dust', methods=['POST'])
 def dust():
     d = get_micro('좌동')
@@ -342,18 +350,6 @@ def test():
         "version": "2.0",
         "data": {
             "dust": 'testing'
-        }
-    }
-    return jsonify(result)
-
-@app.route('/number', methods=['POST'])
-def number():
-    d = get_micro('좌동')
-    print(d)
-    result = {
-        "version": "2.0",
-        "data": {
-            "number": d            
         }
     }
     return jsonify(result)
