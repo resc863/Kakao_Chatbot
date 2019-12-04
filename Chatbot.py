@@ -84,6 +84,61 @@ def get_micro(ar) : #대기질 정보 파싱 함수
 
     return "측정 정보\n\n"+controlnumber+"에 측정됨\n\npm10 (미세먼지) : "+pm10+"μm/m³ ("+pm10Cai+")\npm2.5 (초미세먼지) : "+pm25+"μm/m³ ("+pm25Cai+")"
 
+  y=str(list(time.localtime(time.time()))[0])
+  m=str(list(time.localtime(time.time()))[1])
+  d=str(list(time.localtime(time.time()))[2])
+  h=str(list(time.localtime(time.time()))[3]+9)
+  mi=str(list(time.localtime(time.time()))[4])
+  cpy,cpm,cpd,cph,cpmi = copy(y),copy(m),copy(d),copy(h),copy(mi)
+
+  if int(h) >24 :
+    h = str(int(h)-24)
+    if m == '12' and d == '31' :
+      y = str(int(y)+1)
+      m = '1'
+      d = '1'
+    elif d == '31' :
+      if m == '1' or m == '3' or m == '5' or m == '7' or m == '8' or m == '10' :
+        m = str(int(m)+1)
+        d = '1'
+    elif d == '30' :
+      if m == '4' or m == '6' or m == '9' or m == '11' :
+        m = str(int(m)+1)
+        d = '1'
+    elif d == '29' :
+      if m == '2' and int(y)%4 == 0 :
+        m = '3'
+        d = '1'
+    elif d == '28' :
+      if m == '2' and int(y)%4 != 0 :
+        m = '3'
+        d = '1'
+    else :
+      d = str(int(d)+1)
+
+  if h != '2' and h != '5' and h!= '8' and h!= '11' and h != '14' and h != '17' and h != '20' and h != '23' :
+    a = int(h)%3
+    h=str(int(h)-a-1)
+  else :
+    if int(mi)<15 :
+      h = str(int(h)-3)
+
+  if h == '-1' :
+    h = '23'
+    y,m,d = cpy,cpm,cpd
+
+  if int(h)<10 :
+    h = '0'+h
+  if int(m)<10 :
+    m = '0'+m
+  if int(d)<10 :
+    d = '0'+d
+  if int(mi)<10 :
+    mi = '0'+mi
+
+  return y,m,d,h,mi
+
+
 
 
 def get_diet(code, ymd, weekday):
@@ -142,35 +197,15 @@ def print_get_meal(local_date, local_weekday):
             meal = lunch + dinner
             return meal
         
-def forecast() : #날씨 예보 파싱 함보
-  y=str(list(time.localtime(time.time()))[0])
-  m=str(list(time.localtime(time.time()))[1])
-  d=str(list(time.localtime(time.time()))[2])
-  h=str(list(time.localtime(time.time()))[3]+9)
-  mi=str(list(time.localtime(time.time()))[4])
+def forecast() : #날씨 예보 파싱 함수
+
+  y,m,d,h,mi = dayCal()
   
-  if int(h) >24 :
-    h = str(int(h-24))
-  if h != '2' and h != '5' and h!= '8' and h!= '11' and h != '14' and h != '17' and h != '20' and h != '23' :
-    a = int(h)%3
-    h=str(int(h)-a-1)
-
-    if int(mi)<15 :
-      h = int(h)-3
-
-    if h == '-1' :
-      h = '23'
-    elif h == '-4' :
-      h = '20'
-  if int(h)<10 :
-    h = '0'+h
-
-
   key = 'ExhrDuBJZ28eMHPRIyFToDuqoT1Lx3ViPoI3uKVLS%2FyucnbaLbQISs4%2FSJWf0AzAV1gkbbtZK5GWvO9clF%2B1aQ%3D%3D'
   #발급받은 인증키
   url = 'http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey='+key+'&base_date='+y+m+d+'&base_time='+h+'00&nx=99&ny=75&numOfRows=90&pageNo=1&_type=json'
   #파싱할 json의 url
-
+  
   rs = urlopen(url).read().decode('utf-8')
   #url주소를 읽어 내용을 'utf-8'형식으로 디코딩하여 문자열 반환
   json_data = json.loads(rs)
@@ -231,17 +266,20 @@ def forecast() : #날씨 예보 파싱 함보
     if str(info[i].get("fcstTime")) == '0600' :
       if cate == 'TMN' :
         tmn = value
+        
   if int(ft) < 1200 :
-    amp = '오전'
+    apm = '오전 '
+  elif int(ft) == 1200 :
+    apm = '정오 '
   else :
-    amp = '오후'
+    apm = '오후 '
     ft = str(int(ft)-1200)
     if int(ft) < 1000 :
       ft = '0'+ft
-  p = amp+' '+ft[:2]+':'+ft[2:]+'\n\n최고 : '+tmx+'°C  최저 : '+tmn+'°C\n'+sky+pty+'\n현재온도 : '+t3h+'°C\n습도 : '+reh+'%\n강수확률 : '+pop+'%\n풍속 : '+wsd+'m/s'
+
+  p = apm+ft[:2]+':'+ft[2:]+' 예보\n\n최고 : '+tmx+'°C  최저 : '+tmn+'°C\n'+sky+pty+'\n'+t3h+'°C\n습도 : '+reh+'%\n강수확률 : '+pop+'%\n풍속 : '+wsd+'m/s'
  
   return p
-
 def repl(self) :
   a = self.replace(' ', '')
   return a
