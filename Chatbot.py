@@ -315,12 +315,8 @@ def next_meal():
             }
         }
         return jsonify(result)
-    print("\n")
-    print("검색중...")
 
     meal = print_get_meal(tomorrow, whatday)
-
-    print("\n")
     print(meal)
     result = {
         "version": "2.0",
