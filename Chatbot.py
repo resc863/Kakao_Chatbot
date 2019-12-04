@@ -299,6 +299,17 @@ def dust():
         }
     }
     return jsonify(result)
+  
+@app.route('/test', methods=['POST'])
+def dust():
+    print('test')
+    result = {
+        "version": "2.0",
+        "data": {
+            "dust": 'testing'
+        }
+    }
+    return jsonify(result)
 
 @app.route('/number', methods=['POST'])
 def number():
