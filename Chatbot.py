@@ -344,7 +344,7 @@ def meal():
         return jsonify(result)
     
     print(str(today)+"\n"+str(whatday))
-    meal = print_get_meal(date2, whatday)
+    meal = print_get_meal(today1, whatday)
     print(meal)
     result = {
         "version": "2.0",
