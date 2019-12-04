@@ -359,12 +359,12 @@ def number():
 
 @app.route('/weather', methods=['POST'])
 def weather():
-    weather = forecast()
-    print(weather)
+    weather1 = forecast()
+    print(weather1)
     result = {
         "version": "2.0",
         "data": {
-            "weather": weather
+            "weather": weather1
         }
     }
     return jsonify(result)
