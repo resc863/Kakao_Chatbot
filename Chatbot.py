@@ -300,13 +300,7 @@ def number():
     result = {
         "version": "2.0",
         "data": {
-            "number": d
-            
-            def repl(self) :
-  a = self.replace(' ', '')
-  return a
-            
-            
+            "number": d            
         }
     }
     return jsonify(result)
