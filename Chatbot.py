@@ -9,6 +9,7 @@ import datetime
 import time
 import random
 from datetime import date
+from copy import copy
 import sys
 
 ERROR_MESSAGE = '네트워크 접속에 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.'
