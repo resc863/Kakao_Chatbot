@@ -84,6 +84,7 @@ def get_micro(ar) : #대기질 정보 파싱 함수
 
     return "측정 정보\n\n"+controlnumber+"에 측정됨\n\npm10 (미세먼지) : "+pm10+"μm/m³ ("+pm10Cai+")\npm2.5 (초미세먼지) : "+pm25+"μm/m³ ("+pm25Cai+")"
 
+def dayCal() :
   y=str(list(time.localtime(time.time()))[0])
   m=str(list(time.localtime(time.time()))[1])
   d=str(list(time.localtime(time.time()))[2])
@@ -137,7 +138,6 @@ def get_micro(ar) : #대기질 정보 파싱 함수
     mi = '0'+mi
 
   return y,m,d,h,mi
-
 
 
 
