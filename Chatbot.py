@@ -301,7 +301,7 @@ def dust():
     return jsonify(result)
   
 @app.route('/test', methods=['POST'])
-def dust():
+def test():
     print('test')
     result = {
         "version": "2.0",
