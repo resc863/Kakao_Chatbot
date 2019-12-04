@@ -265,8 +265,8 @@ def Keyboard():
     }
     return jsonify(dataSend)
 
-@app.route('/next_meal', methods=['POST'])
-def next_meal():
+@app.route('/tomorrow_meal', methods=['POST'])
+def tomorrow_meal():
     request_body = request.get_json()  # request body 받음
     params = request_body['action']['params'] # action > params로 파라미터에 접근
 
@@ -311,20 +311,21 @@ def next_meal():
         result = {
             "version": "2.0",
             "data": {
-                "meal": "급식이 없습니다."
+                "tomorrow_meal": "급식이 없습니다."
             }
         }
         return jsonify(result)
 
-    meal = print_get_meal(tomorrow, whatday)
-    print(meal)
+    tomorrow_meal = print_get_meal(tomorrow, whatday)
+    print(tomorrow_meal)
     result = {
         "version": "2.0",
         "data": {
-            "meal": meal
+            "tomorrow_meal": tomorrow_meal
         }
     }
-            
+    return jsonify(result)
+        
                                  
   
 @app.route('/dust', methods=['POST'])
