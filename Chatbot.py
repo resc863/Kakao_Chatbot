@@ -88,7 +88,7 @@ def dayCal() :
   y=str(list(time.localtime(time.time()))[0])
   m=str(list(time.localtime(time.time()))[1])
   d=str(list(time.localtime(time.time()))[2])
-  h=str(list(time.localtime(time.time()))[3]+9)
+  h=str(list(time.localtime(time.time()))[3])
   mi=str(list(time.localtime(time.time()))[4])
   cpy,cpm,cpd,cph,cpmi = copy(y),copy(m),copy(d),copy(h),copy(mi)
 
