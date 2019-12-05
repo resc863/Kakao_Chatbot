@@ -9,7 +9,6 @@ import datetime
 import time
 import random
 from datetime import date
-from copy import copy
 import sys
 
 ERROR_MESSAGE = '네트워크 접속에 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.'
@@ -91,7 +90,6 @@ def dayCal() :
   d=str(list(time.localtime(time.time()))[2])
   h=str(list(time.localtime(time.time()))[3])
   mi=str(list(time.localtime(time.time()))[4])
-  cpy,cpm,cpd,cph,cpmi = copy(y),copy(m),copy(d),copy(h),copy(mi)
   
   
   if h != '2' and h != '5' and h!= '8' and h!= '11' and h != '14' and h != '17' and h != '20' and h != '23' :
@@ -103,7 +101,25 @@ def dayCal() :
 
   if h == '-1' :
     h = '23'
-    y,m,d = cpy,cpm,cpd
+    if d == '1' :
+        if m == '1' :
+            y = str(int(y)-1)
+            m = '12'
+            d = '31'
+        elif m == '5' or m == '7' or m == '8' or m == '10' or m == '12' :
+            m = str(int(m)-1)
+            d = '30'
+        elif m == '2' or m == '4' or m == '6' or m == '9' or m == '11' :
+            m = str(int(m)-1)
+            d = '31'
+        elif m == '3' and int(y)%4 == 0 :
+            m = '2'
+            d = '29'
+        elif m == '3' and int(y)%4 != 0 :
+            m = '2'
+            d = '28'
+    else :
+        d = str(int(d)-1)
 
   if int(h)<10 :
     h = '0'+h
@@ -270,7 +286,10 @@ def tomorrow_meal():
     request_body = request.get_json()  # request body 받음
     params = request_body['action']['params'] # action > params로 파라미터에 접근
 
-    y,m,d,h,mi = dayCal()
+    y = str(list(time.localtime(time.time()))[0])
+    m = str(list(time.localtime(time.time()))[1])
+    d = str(list(time.localtime(time.time()))[2])
+    
     if m == '12' and d == '31' :
         y = str(int(y)+1)
         m = '1'
@@ -293,6 +312,7 @@ def tomorrow_meal():
             d = '1'
     else :
         d = str(int(d)+1)
+        
     if int(h)<10 :
         h = '0'+h
     if int(m)<10 :
