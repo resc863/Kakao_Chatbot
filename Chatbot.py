@@ -99,7 +99,7 @@ def dayCal() :
     if int(mi)<15 :
       h = str(int(h)-3)
 
-  if h == '-1' :
+  if int(h) < 0 :
     h = '23'
     if d == '1' :
         if m == '1' :
