@@ -84,55 +84,6 @@ def get_micro(ar) : #대기질 정보 파싱 함수
 
     return "측정 정보\n\n"+controlnumber+"에 측정됨\n\npm10 (미세먼지) : "+pm10+"μm/m³ ("+pm10Cai+")\npm2.5 (초미세먼지) : "+pm25+"μm/m³ ("+pm25Cai+")"
 
-def dayCal() :
-  y=str(list(time.localtime(time.time()))[0])
-  m=str(list(time.localtime(time.time()))[1])
-  d=str(list(time.localtime(time.time()))[2])
-  h=str(list(time.localtime(time.time()))[3])
-  mi=str(list(time.localtime(time.time()))[4])
-  
-  
-  if h != '2' and h != '5' and h!= '8' and h!= '11' and h != '14' and h != '17' and h != '20' and h != '23' :
-    a = int(h)%3
-    h=str(int(h)-a-1)
-  else :
-    if int(mi)<15 :
-      h = str(int(h)-3)
-
-  if int(h) < 0 :
-    h = '23'
-    if d == '1' :
-        if m == '1' :
-            y = str(int(y)-1)
-            m = '12'
-            d = '31'
-        elif m == '5' or m == '7' or m == '8' or m == '10' or m == '12' :
-            m = str(int(m)-1)
-            d = '30'
-        elif m == '2' or m == '4' or m == '6' or m == '9' or m == '11' :
-            m = str(int(m)-1)
-            d = '31'
-        elif m == '3' and int(y)%4 == 0 :
-            m = '2'
-            d = '29'
-        elif m == '3' and int(y)%4 != 0 :
-            m = '2'
-            d = '28'
-    else :
-        d = str(int(d)-1)
-
-  if int(h)<10 :
-    h = '0'+h
-  if int(m)<10 :
-    m = '0'+m
-  if int(d)<10 :
-    d = '0'+d
-  if int(mi)<10 :
-    mi = '0'+mi
-
-  return y,m,d,h,mi
-
-
 
 def get_diet(code, ymd, weekday):
     schMmealScCode = code #int 1조식2중식3석식
@@ -192,7 +143,49 @@ def print_get_meal(local_date, local_weekday):
         
 def forecast() : #날씨 예보 파싱 함수
 
-    y,m,d,h,mi = dayCal()
+    y=str(list(time.localtime(time.time()))[0])
+    m=str(list(time.localtime(time.time()))[1])
+    d=str(list(time.localtime(time.time()))[2])
+    h=str(list(time.localtime(time.time()))[3])
+    mi=str(list(time.localtime(time.time()))[4])
+    
+    if h != '2' and h != '5' and h!= '8' and h!= '11' and h != '14' and h != '17' and h != '20' and h != '23' :
+        a = int(h)%3
+        h=str(int(h)-a-1)
+    else :
+        if int(mi)<15 :
+            h = str(int(h)-3)
+
+    if int(h) < 0 :
+        h = '23'
+        if d == '1' :
+            if m == '1' :
+                y = str(int(y)-1)
+                m = '12'
+                d = '31'
+            elif m == '5' or m == '7' or m == '8' or m == '10' or m == '12' :
+                m = str(int(m)-1)
+                d = '30'
+            elif m == '2' or m == '4' or m == '6' or m == '9' or m == '11' :
+                m = str(int(m)-1)
+                d = '31'
+            elif m == '3' and int(y)%4 == 0 :
+                m = '2'
+                d = '29'
+            elif m == '3' and int(y)%4 != 0 :
+                m = '2'
+                d = '28'
+    else :
+        d = str(int(d)-1)
+        
+    if int(h)<10 :
+        h = '0'+h
+    if int(m)<10 :
+        m = '0'+m
+    if int(d)<10 :
+        d = '0'+d
+    if int(mi)<10 :
+        mi = '0'+mi
   
     key = 'ExhrDuBJZ28eMHPRIyFToDuqoT1Lx3ViPoI3uKVLS%2FyucnbaLbQISs4%2FSJWf0AzAV1gkbbtZK5GWvO9clF%2B1aQ%3D%3D'
     #발급받은 인증키
