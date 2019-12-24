@@ -466,6 +466,17 @@ def schedule():
     
     return jsonify(result)
 
+@app.route('/db', methods=['POST'])
+def db():
+    body = request.get_json()   
+    
+    result = {
+        "version": "2.0",
+        "data": {
+            "db": "sadadas"
+        }
+    }
+    return jsonify(result)
 
 
 if __name__ == '__main__':
