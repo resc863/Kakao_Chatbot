@@ -1,9 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
 
-from bs4 import BeautifulSoup
-import requests
-
 def lineid(lineno):    
     lineurl = "http://61.43.246.153/openapi-data/service/busanBIMS2/busInfo?lineno="+lineno+"&serviceKey=0XeO7nbthbiRoMUkYGGah20%2BfXizwc0A6BfjrkL6qhh2%2Fsl8j9PzfSLGKnqR%2F1v%2F%2B6AunxntpLfoB3Ryd3OInQ%3D%3D"
     lineid2 = requests.get(lineurl).text
