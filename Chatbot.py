@@ -416,14 +416,10 @@ def tomorrow_meal():
     else :
         d = str(int(d)+1)
         
-    if int(h)<10 :
-        h = '0'+h
     if int(m)<10 :
         m = '0'+m
     if int(d)<10 :
         d = '0'+d
-    if int(mi)<10 :
-        mi = '0'+mi
     tomorrow = y+'.'+m+'.'+d
 
     try : 
