@@ -12,12 +12,14 @@ x=input()
 cur.execute("select * from Suhang where month="+ x)
 
 
+
 def result ():
+    a=""
     for row in cur:
-        a = ("과목 : " + str(row[4]) +'\n' +
+        a = a+ ("과목 : " + str(row[4]) +'\n' +
              "이름 : " + str(row[3]) + '\n' +
              "날짜 : " + str(row[0]) + " - " + str(row[1]) + " - " + str(row[2]) +'\n' +
-             " ")
+             "\n")
     return a
         
 print(result())
