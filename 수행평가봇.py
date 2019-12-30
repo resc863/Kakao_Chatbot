@@ -18,7 +18,7 @@ def result ():
     for row in cur:
         a = a+ ("과목 : " + str(row[4]) +'\n' +
              "내용 : " + str(row[3]) + '\n' +
-             "날짜 : " + str(row[0]) + " - " + str(row[1]) + " - " + str(row[2]) +'\n' +
+             "날짜 : " + str(row[0]) + "년 " + str(row[1]) + "월 " + str(row[2]) +'일\n' +
              "\n")
     return a
         
