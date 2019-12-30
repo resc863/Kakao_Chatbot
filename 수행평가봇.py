@@ -20,4 +20,4 @@ def result ():
              " ")
     return a
         
-result()
+print(result())
