@@ -567,7 +567,9 @@ def schedule():
 
 @app.route('/db', methods=['POST'])
 def db():
-    body = request.get_json()   
+    body = request.get_json()
+
+    print(body)
     
     result = {
         "version": "2.0",
