@@ -573,6 +573,9 @@ def db():
     subject = body['action']['params']['과목']
     date = body['action']['params']['기한']['value']['date']
 
+    conn = sqlite3.connect("2019.db")
+    cur = conn.cursor()
+    
     print(grade)
     print(subject)
     print(date)
