@@ -49,4 +49,26 @@
                             "day": "12"
                            }'
                  }
-    }, 'userRequest': {'lang': 'kr', 'params': {'surface': 'BuilderBotTest', 'ignoreMe': 'true'}, 'timezone': 'Asia/Seoul', 'user': {'type': 'botUserKey', 'id': '7ce0cc7196aef2d30f09ec35b6dc8456a2cdf9a4f3d33bbb8690011130dba1bfb3', 'properties': {'botUserKey': '7ce0cc7196aef2d30f09ec35b6dc8456a2cdf9a4f3d33bbb8690011130dba1bfb3', 'bot_user_key': '7ce0cc7196aef2d30f09ec35b6dc8456a2cdf9a4f3d33bbb8690011130dba1bfb3'}}, 'utterance': '기한\n', 'block': {'id': '5e00842b8192ac000178c6e9', 'name': '마감 기한'}}, 'intent': {'extra': {'reason': {'code': 0, 'message': 'OK'}}, 'id': '5e00842b8192ac000178c6e9', 'name': '마감 기한'}, 'contexts': [{'ttl': 600, 'name': '수행평가', 'params': {'과목': {'resolvedValue': '미적분', 'value': '미적'}, '학년': {'resolvedValue': '1', 'value': '1'}, '내용': {'resolvedValue': '나ㅣ러밀', 'value': '나ㅣ러밀'}, '수행평가': {'resolvedValue': '수행평가', 'value': '수행평가'}}, 'lifespan': 5}]}
+    }, 'userRequest': {
+                        'lang': 'kr', 'params': {
+                                                  'surface': 'BuilderBotTest', 'ignoreMe': 'true'}, 
+                                       'timezone': 'Asia/Seoul', 
+                                       'user': {
+                                         'type': 'botUserKey', 
+                                         'id': '7ce0cc7196aef2d30f09ec35b6dc8456a2cdf9a4f3d33bbb8690011130dba1bfb3', 
+                                         'properties': { 
+                                                         'botUserKey': '7ce0cc7196aef2d30f09ec35b6dc8456a2cdf9a4f3d33bbb8690011130dba1bfb3', 
+                                                         'bot_user_key': '7ce0cc7196aef2d30f09ec35b6dc8456a2cdf9a4f3d33bbb8690011130dba1bfb3'
+                                                        }
+                                                }, 
+                                        'utterance': '기한\n', 'block': {'id': '5e00842b8192ac000178c6e9', 'name': '마감 기한'}
+                       }, 
+      'intent': {
+        'extra': {
+                   'reason': {
+                                'code': 0, 'message': 'OK'}
+                  }, 
+         'id': '5e00842b8192ac000178c6e9', 
+         
+       'name': '마감 기한'}, 
+      'contexts': [{'ttl': 600, 'name': '수행평가', 'params': {'과목': {'resolvedValue': '미적분', 'value': '미적'}, '학년': {'resolvedValue': '1', 'value': '1'}, '내용': {'resolvedValue': '나ㅣ러밀', 'value': '나ㅣ러밀'}, '수행평가': {'resolvedValue': '수행평가', 'value': '수행평가'}}, 'lifespan': 5}]}
