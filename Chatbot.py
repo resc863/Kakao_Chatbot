@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import urllib, requests, re
-import json
+import json, sqlite3
 import datetime
 import time
 import random
@@ -569,7 +569,13 @@ def schedule():
 def db():
     body = request.get_json()
 
-    print(body)
+    grade = body['action']['params']['학년']
+    subject = body['action']['params']['과목']
+    date = body['action']['params']['기한']['value']['date']
+
+    print(grade)
+    print(subject)
+    print(date)
     
     result = {
         "version": "2.0",
@@ -587,6 +593,98 @@ def businfo():
         "version": "2.0",
         "data": {
             "businfo": info
+        }
+    }
+    return jsonify(result)
+
+@app.route('/timetable_s', methods=['POST'])
+def businfo():
+    body = request.get_json()
+    conn = sqlite3.connect("timetable.db")
+    cur = conn.cursor()
+
+    finds = body['action']['params']
+    
+    if finds==1:
+        finds='one'
+    elif finds==2:
+        finds='two'
+    elif finds==3:
+        finds='three'
+    elif finds==4:
+        finds='four'
+    elif finds==5:
+        finds='five'
+    elif finds==6:
+        finds='six'
+    elif finds==7:
+        finds='seven'
+    elif finds==8:
+        finds='eight'
+    elif finds==9:
+        finds='nine'
+    elif finds==10:
+        finds='ten' 
+
+    cur.execute('select * from %s'%finds)
+
+    for row in cur:
+        r = r + row + "\n"
+    
+    result = {
+        "version": "2.0",
+        "data": {
+            "businfo": r
+        }
+    }
+    return jsonify(result)
+
+@app.route('/timetable_t', methods=['POST'])
+def businfo():
+    body = request.get_json()
+    conn = sqlite3.connect("timetable.db")
+    cur = conn.cursor()
+
+    finds = body['action']['params']
+    date = body['action']['params']
+    time = body['action']['params']
+    subjectf = body['action']['params']
+    subjectc = body['action']['params']
+    
+    if finds==1:
+        finds='one'
+    elif finds==2:
+        finds='two'
+    elif finds==3:
+        finds='three'
+    elif finds==4:
+        finds='four'
+    elif finds==5:
+        finds='five'
+    elif finds==6:
+        finds='six'
+    elif finds==7:
+        finds='seven'
+    elif finds==8:
+        finds='eight'
+    elif finds==9:
+        finds='nine'
+    elif finds==10:
+        finds='ten' 
+
+    cur.execute('select * from %s'%finds)
+
+    cur.execute("update %s set %s = '%s' where %s = '%s' and 교시 = '%s'" %(finds,date, subjectc, date, subjectf,time))
+    try:
+        conn.commit()
+        ans = "정상적으로 처리되었습니다."
+    except:
+        ans = "오류가 발생했습니다."
+    
+    result = {
+        "version": "2.0",
+        "data": {
+            "businfo": ans
         }
     }
     return jsonify(result)
