@@ -569,10 +569,10 @@ def schedule():
 def db():
     body = request.get_json()
 
-    grade = body['action']['params']['학년']
-    subject = body['action']['params']['과목']
-    date = body['action']['params']['기한']['value']['date']
-    content = body['context'][0]['params']['내용']['value']
+    grade = body['action']['params']['학년'] #학년
+    subject = body['action']['params']['과목'] #과목
+    date = body['action']['params']['기한']['value']['date'] #마감기한
+    content = body['context'][0]['params']['내용']['value'] #수행내용
 
     conn = sqlite3.connect("2019.db")
     cur = conn.cursor()
