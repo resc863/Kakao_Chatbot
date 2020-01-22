@@ -572,6 +572,7 @@ def db():
     grade = body['action']['params']['학년']
     subject = body['action']['params']['과목']
     date = body['action']['params']['기한']['value']['date']
+    content = body['context'][0]['params']['내용']['value']
 
     conn = sqlite3.connect("2019.db")
     cur = conn.cursor()
@@ -601,7 +602,7 @@ def businfo():
     return jsonify(result)
 
 @app.route('/timetable_s', methods=['POST'])
-def businfo():
+def timetable_s():
     body = request.get_json()
     conn = sqlite3.connect("timetable.db")
     cur = conn.cursor()
@@ -643,7 +644,7 @@ def businfo():
     return jsonify(result)
 
 @app.route('/timetable_t', methods=['POST'])
-def businfo():
+def timetable_t():
     body = request.get_json()
     conn = sqlite3.connect("timetable.db")
     cur = conn.cursor()
