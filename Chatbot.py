@@ -580,11 +580,13 @@ def db():
     print(grade)
     print(subject)
     print(date)
+
+    data = "학년: "+grade+"\n"+"과목: "+subject+"\n"+"마감 기한: "+date+"\n"
     
     result = {
         "version": "2.0",
         "data": {
-            "db": "sadadas"
+            "db": data
         }
     }
     return jsonify(result)
