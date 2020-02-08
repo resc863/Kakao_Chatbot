@@ -569,7 +569,7 @@ def schedule():
 def db():
     body = request.get_json()
 
-    content = body['context']
+    content = body
 
     print(content)
 
