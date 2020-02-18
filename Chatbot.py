@@ -577,7 +577,7 @@ def db():
     subject = content['과목']['value'] #과목
     content1 = content['내용']['value'] #수행내용
     date1 = body['action']['params']['기한'] #마감기한
-    date = eval(date)
+    date = eval(date1)
 
     conn = sqlite3.connect("2019.db")
     cur = conn.cursor()
