@@ -585,6 +585,7 @@ def db():
     date1 = body['action']['params']['기한'] #마감기한
     print(date1)
 
+    '''
     year = eval("date1['year']")
     print(year)
 
@@ -596,7 +597,7 @@ def db():
 
     date = eval("date1['date']")
     print(date)
-    
+    '''   
 
     conn = sqlite3.connect("2019.db")
     cur = conn.cursor()
@@ -605,7 +606,7 @@ def db():
     
     
 
-    data = "학년: "+grade+"\n"+"과목: "+subject+"\n"+"마감 기한: "+date+"\n"
+    data = "학년: "+grade+"\n"+"과목: "+subject+"\n"+"마감 기한: "+date1+"\n"
     
     result = {
         "version": "2.0",
