@@ -11,7 +11,7 @@ print("몇월 수행평가를 출력하시겠습니까?")
 x=input()
 cur.execute("select * from Suhang where month="+ x)
 
-
+cur.execute("insert into Suhang (year, month, day, name, subject) values ('2019', '12', '12', 'Hello', '미적분');")
 
 def result ():
     a=""
@@ -23,3 +23,4 @@ def result ():
     return a
         
 print(result())
+
