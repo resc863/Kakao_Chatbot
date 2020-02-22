@@ -582,8 +582,19 @@ def db():
     content1 = content['내용']['value'] #수행내용
     print(content1)
     
-    date = body['action']['params']['기한'] #마감기한
-    print(date)
+    date1 = body['action']['params']['기한'] #마감기한
+    print(date1)
+
+    year = date1["year"]
+    print(year)
+
+    month = date1["month"]
+    print(month)
+
+    day = date1["day"]
+    print(day)
+
+    date = data1["date"]
     
 
     conn = sqlite3.connect("2019.db")
