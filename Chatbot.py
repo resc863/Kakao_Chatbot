@@ -582,22 +582,19 @@ def db():
     content1 = content['내용']['value'] #수행내용
     print(content1)
     
-    date1 = body['action']['params']['기한'] #마감기한
-    print(date1)
+    date = body['action']['params']['기한'] #마감기한
+    print(date)
 
-    '''
-    year = eval("date1['year']")
+    d = date.split("-")
+
+    year = d[0]
     print(year)
 
-    month = eval("date1['month']")
+    month = d[1]
     print(month)
 
-    day = eval("date1['day']")
+    day = d[2]
     print(day)
-
-    date = eval("date1['date']")
-    print(date)
-    '''   
 
     conn = sqlite3.connect("2019.db")
     cur = conn.cursor()
@@ -606,7 +603,7 @@ def db():
     
     
 
-    data = "학년: "+grade+"\n"+"과목: "+subject+"\n"+"마감 기한: "+date1+"\n"
+    data = "학년: "+grade+"\n"+"과목: "+subject+"\n"+"마감 기한: "+date+"\n"
     
     result = {
         "version": "2.0",
