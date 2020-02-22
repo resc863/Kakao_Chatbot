@@ -600,6 +600,7 @@ def db():
     cur = conn.cursor()
 
     cur.execute("insert into Suhang (year, month, day, name, subject) values ("+year+","+month+","+day+","+content1+","+subject+");")
+    cur.commit()
     cur.execute("select * from Suhang where month="+ month+"and day="+ day)
     data = []
 
@@ -612,6 +613,8 @@ def db():
             "db": data
         }
     }
+    cur.close()
+    
     return jsonify(result)
   
 @app.route('/businfo', methods=['POST'])
