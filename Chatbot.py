@@ -585,16 +585,16 @@ def db():
     date1 = body['action']['params']['기한'] #마감기한
     print(date1)
 
-    year = date1["year"]
+    year = date1.get('year')
     print(year)
 
-    month = date1["month"]
+    month = date1.get('month')
     print(month)
 
-    day = date1["day"]
+    day = date1.get('day')
     print(day)
 
-    date = data1["date"]
+    date = data1.get('date')
     
 
     conn = sqlite3.connect("2019.db")
