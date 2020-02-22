@@ -573,10 +573,10 @@ def db():
 
     print(content)
 
-    grade = content['학년']['value'] #학년
+    grade = content['학년']['resolvedValue'] #학년
     print(grade)
     
-    subject = content['과목']['value'] #과목
+    subject = content['과목']['resolvedValue'] #과목
     print(subject)
     
     content1 = content['내용']['value'] #수행내용
@@ -598,10 +598,6 @@ def db():
 
     conn = sqlite3.connect("2019.db")
     cur = conn.cursor()
-    
-    
-    
-    
 
     data = "학년: "+grade+"\n"+"과목: "+subject+"\n"+"마감 기한: "+date+"\n"
     
