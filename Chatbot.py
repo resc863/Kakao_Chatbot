@@ -580,10 +580,11 @@ def db():
     print(subject)
     
     content1 = content['내용']['value'] #수행내용
+    print(content1)
+    
+    date = body['action']['params']['기한'] #마감기한
     print(date)
     
-    date1 = body['action']['params']['기한'] #마감기한
-    print(content1)
 
     conn = sqlite3.connect("2019.db")
     cur = conn.cursor()
