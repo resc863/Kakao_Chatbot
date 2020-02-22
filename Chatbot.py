@@ -599,6 +599,8 @@ def db():
     conn = sqlite3.connect("2019.db")
     cur = conn.cursor()
 
+    cur.execute("insert into Suhang (year, month, day, name, subject) values ("+year+","+month+","+day+","+content1+","+subject+");")
+
     data = "학년: "+grade+"\n"+"과목: "+subject+"\n"+"마감 기한: "+date+"\n"
     
     result = {
