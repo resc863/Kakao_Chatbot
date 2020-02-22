@@ -604,8 +604,13 @@ def db():
     cur.execute("select * from Suhang where month="+ month+"and day="+ day)
     data = []
 
-    for i in cur:
-        data.append(i)
+    for row in cur:
+        data = data+ ("과목 : " + str(row[4]) +'\n' +
+             "내용 : " + str(row[3]) + '\n' +
+             "날짜 : " + str(row[0]) + "년 " + str(row[1]) + "월 " + str(row[2]) +'일\n' +
+             "\n")
+
+    print(data)
     
     result = {
         "version": "2.0",
