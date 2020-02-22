@@ -600,8 +600,11 @@ def db():
     cur = conn.cursor()
 
     cur.execute("insert into Suhang (year, month, day, name, subject) values ("+year+","+month+","+day+","+content1+","+subject+");")
+    cur.execute("select * from Suhang where month="+ month+"and day="+ day)
+    data = []
 
-    data = "학년: "+grade+"\n"+"과목: "+subject+"\n"+"마감 기한: "+date+"\n"
+    for i in cur:
+        data.append(i)
     
     result = {
         "version": "2.0",
