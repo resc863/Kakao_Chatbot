@@ -599,7 +599,7 @@ def db():
     conn = sqlite3.connect("2019.db")
     cur = conn.cursor()
 
-    cur.execute("insert into Suhang (year, month, day, name, subject) values ("+year+","+month+","+day+","+content1+","+subject+");")
+    cur.execute("insert into Suhang (year, month, day, content1, subject) values ("+year+","+month+","+day+","+name+","+subject+");")
     conn.commit()
     cur.execute("select * from Suhang where month="+ month+"and day="+ day)
     data = []
