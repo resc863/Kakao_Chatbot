@@ -602,7 +602,7 @@ def db():
     cur.execute("insert into Suhang values (?,?,?,?,?)", (year, month, day, content1, subject))
     conn.commit() 
     cur.execute("select * from Suhang where month="+ month +" and day="+ day)
-    data = []
+    data = ""
 
     for row in cur:
         data = data+ ("과목 : " + str(row[4]) +'\n' +
