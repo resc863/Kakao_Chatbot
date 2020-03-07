@@ -601,7 +601,7 @@ def db():
 
     cur.execute("insert into Suhang values (?,?,?,?,?)", (year, month, day, content1, subject))
     conn.commit() 
-    cur.execute("select * from Suhang where month="+ month +"and day="+ day)
+    cur.execute("select * from Suhang where month="+ month +" and day="+ day)
     data = []
 
     for row in cur:
