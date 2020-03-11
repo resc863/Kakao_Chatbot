@@ -621,6 +621,59 @@ def db():
     conn.close()
     
     return jsonify(result)
+
+@app.route('/search', methods=['POST'])
+def search():
+    body = request.get_json()
+
+    content = body['contexts'][0]['params']
+
+    print(content)
+
+    grade = content['학년']['resolvedValue'] #학년
+    print(grade)
+    
+    subject = content['과목']['resolvedValue'] #과목
+    print(subject)
+    
+    date = body['action']['params']['기한'] #마감기한
+    print(date)
+
+    d = date.split("-")
+
+    year = d[0]
+    print(year)
+
+    month = d[1]
+    print(month)
+
+    day = d[2]
+    print(day)
+
+    conn = sqlite3.connect("2019.db")
+    cur = conn.cursor()   
+    
+    cur.execute("select * from Suhang where month="+ month +" and day="+ day)
+    data = ""
+
+    for row in cur:
+        data = data+ ("과목 : " + str(row[4]) +'\n' +
+             "내용 : " + str(row[3]) + '\n' +
+             "날짜 : " + str(row[0]) + "년 " + str(row[1]) + "월 " + str(row[2]) +'일\n' +
+             "\n")
+
+    print(data)
+    
+    result = {
+        "version": "2.0",
+        "data": {
+            "db": data
+        }
+    }
+    
+    conn.close()
+    
+    return jsonify(result)
   
 @app.route('/businfo', methods=['POST'])
 def businfo():
