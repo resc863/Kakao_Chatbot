@@ -653,7 +653,7 @@ def search():
     conn = sqlite3.connect("2019.db")
     cur = conn.cursor()   
     
-    cur.execute("select * from Suhang where month="+ month +" and day="+ day)
+    cur.execute("select * from "+grade+" where month="+ month)
     data = ""
 
     for row in cur:
