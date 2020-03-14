@@ -644,7 +644,7 @@ def search():
     conn = sqlite3.connect("2019.db")
     cur = conn.cursor()   
     
-    cur.execute("select * from Suhang"+grade+" where month="+ month)
+    cur.execute("select * from Suhang"+grade+" where subject="+ subject)
     data = ""
 
     for row in cur:
