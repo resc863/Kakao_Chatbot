@@ -636,10 +636,6 @@ def search():
     subject = content['과목']['resolvedValue'] #과목
     print(subject)
     
-    date = body['action']['params']['기한'] #마감기한
-    print(date)
-
-    month = date
 
     conn = sqlite3.connect("2019.db")
     cur = conn.cursor()   
