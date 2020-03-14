@@ -654,7 +654,7 @@ def search():
     result = {
         "version": "2.0",
         "data": {
-            "db": data
+            "search": data
         }
     }
     
