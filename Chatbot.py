@@ -601,7 +601,7 @@ def db():
 
     cur.execute("insert into Suhang values (?,?,?,?,?)", (year, month, day, content1, subject))
     conn.commit() 
-    cur.execute("select * from Suhang where month="+ month +" and day="+ day)
+    cur.execute("select * from Suhang"+grade+" where month="+ month +" and day="+ day)
     data = ""
 
     for row in cur:
@@ -639,21 +639,12 @@ def search():
     date = body['action']['params']['기한'] #마감기한
     print(date)
 
-    d = date.split("-")
-
-    year = d[0]
-    print(year)
-
-    month = d[1]
-    print(month)
-
-    day = d[2]
-    print(day)
+    month = date
 
     conn = sqlite3.connect("2019.db")
     cur = conn.cursor()   
     
-    cur.execute("select * from "+grade+" where month="+ month)
+    cur.execute("select * from Suhang"+grade+" where month="+ month)
     data = ""
 
     for row in cur:
