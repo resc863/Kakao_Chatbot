@@ -1,0 +1,7 @@
+bs4
+urllib 
+requests
+re
+sqlite3
+datetime
+flask
