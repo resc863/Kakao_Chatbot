@@ -7,9 +7,10 @@ cur=con.cursor()
 
 print("몇학년 정보를 원하십니까?") #학년 선택 버튼
 
+grade = input("여기에 학년 입력")
 
 x=input() # 2020 입력 함
-cur.execute("select * from Suhang where year="+ x)#전체 정보 출력을 위해 년도로 선택 
+cur.execute("select * from Suhang"+grade+" where year="+ x)#전체 정보 출력을 위해 년도로 선택 
 
 
 
