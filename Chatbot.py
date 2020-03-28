@@ -680,8 +680,9 @@ def timetable_s():
     conn = sqlite3.connect("timetable.db")
     cur = conn.cursor()
 
-    finds = body['action']['params']
-    print(finds)
+    finds = body['action']['params']['반']
+    date = body['action']['params']['요일']
+    time = body['action']['params']['교시']
     
     if finds==1:
         finds='one'
