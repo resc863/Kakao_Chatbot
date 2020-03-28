@@ -681,6 +681,7 @@ def timetable_s():
     cur = conn.cursor()
 
     finds = body['action']['params']
+    print(finds)
     
     if finds==1:
         finds='one'
@@ -723,6 +724,8 @@ def timetable_t():
     cur = conn.cursor()
 
     finds = body['action']['params']
+    print(finds)
+
     date = body['action']['params']
     time = body['action']['params']
     subjectf = body['action']['params']
