@@ -726,8 +726,8 @@ def timetable_t():
     finds = body['action']['params']['반']
     date = body['action']['params']['요일']
     time = body['action']['params']['교시']
-    subjectf = body['action']['params']
-    subjectc = body['action']['params']
+    subjectf = body['action']['params']['과목1']
+    subjectc = body['action']['params']['과목2']
     
     if finds==1:
         finds='one'
