@@ -712,7 +712,7 @@ def timetable_s():
     result = {
         "version": "2.0",
         "data": {
-            "businfo": r
+            "timetable": r
         }
     }
     return jsonify(result)
