@@ -723,11 +723,9 @@ def timetable_t():
     conn = sqlite3.connect("timetable.db")
     cur = conn.cursor()
 
-    finds = body['action']['params']
-    print(finds)
-
-    date = body['action']['params']
-    time = body['action']['params']
+    finds = body['action']['params']['반']
+    date = body['action']['params']['요일']
+    time = body['action']['params']['교시']
     subjectf = body['action']['params']
     subjectc = body['action']['params']
     
@@ -752,8 +750,6 @@ def timetable_t():
     elif finds==10:
         finds='ten' 
 
-    cur.execute('select * from %s'%finds)
-
     cur.execute("update %s set %s = '%s' where %s = '%s' and 교시 = '%s'" %(finds,date, subjectc, date, subjectf,time))
     try:
         conn.commit()
@@ -764,7 +760,7 @@ def timetable_t():
     result = {
         "version": "2.0",
         "data": {
-            "businfo": ans
+            "timetable": ans
         }
     }
     return jsonify(result)
