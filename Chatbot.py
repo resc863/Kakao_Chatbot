@@ -16,6 +16,15 @@ ERROR_MESSAGE = '네트워크 접속에 문제가 발생하였습니다. 잠시 
 
 app = Flask(__name__)
 
+def mask(location):
+    location = urllib.parse.quote(location)
+    url = "https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByAddr/json?address="+location
+
+    html = urlopen(url).read().decode('utf-8')
+    data = json.loads(html).get('stores')
+
+    return data
+
 def lineid(lineno):    
     lineurl = "http://61.43.246.153/openapi-data/service/busanBIMS2/busInfo?lineno="+lineno+"&serviceKey=0XeO7nbthbiRoMUkYGGah20%2BfXizwc0A6BfjrkL6qhh2%2Fsl8j9PzfSLGKnqR%2F1v%2F%2B6AunxntpLfoB3Ryd3OInQ%3D%3D"
     lineid2 = requests.get(lineurl).text
@@ -670,6 +679,37 @@ def businfo():
         "version": "2.0",
         "data": {
             "businfo": info
+        }
+    }
+    return jsonify(result)
+
+@app.route('/mask', methods=['POST'])
+def mask():
+    info = mask("부산광역시 해운대구 좌동")  
+
+    data = ""
+    stat = ""
+    
+    for i in range(len(info)):
+        try:
+            if info[i]['remain_stat'] == 'empty':
+                stat = "재고 없음"
+            elif (info[i]['remain_stat'] == 'some') or (info[i]['remain_stat'] == 'plenty') or (info[i]['remain_stat'] == 'few'):
+                stat = "재고 있음"
+
+            else:
+                stat = "알 수 없음"
+        except:
+            stat = "알 수 없음"
+            
+        data = data + info['name'] + " : " +stat + "\n"
+
+    print(data)
+
+    result = {
+        "version": "2.0",
+        "data": {
+            "mask": data
         }
     }
     return jsonify(result)
