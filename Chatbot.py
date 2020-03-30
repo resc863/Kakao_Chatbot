@@ -16,7 +16,7 @@ ERROR_MESSAGE = '네트워크 접속에 문제가 발생하였습니다. 잠시 
 
 app = Flask(__name__)
 
-def mask(location):
+def maskinfo(location):
     location = urllib.parse.quote(location)
     url = "https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByAddr/json?address="+location
 
@@ -685,7 +685,7 @@ def businfo():
 
 @app.route('/mask', methods=['POST'])
 def mask():
-    info = mask("부산광역시 해운대구 좌동")  
+    info = maskinfo("부산광역시 해운대구 좌동")  
 
     data = ""
     stat = ""
