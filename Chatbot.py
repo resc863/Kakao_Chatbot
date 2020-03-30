@@ -702,7 +702,7 @@ def mask():
         except:
             stat = "알 수 없음"
             
-        data = data + info['name'] + " : " +stat + "\n"
+        data = data + info[i]['name'] + " : " +stat + "\n"
 
     print(data)
 
