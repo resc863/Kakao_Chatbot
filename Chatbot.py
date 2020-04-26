@@ -751,7 +751,7 @@ def timetable_t():
     time = body['action']['params']['교시']
     subjectc = body['action']['params']['과목2']
     
-    cur.execute("update '%s' set %s = '%s' where %s != '%s' and 교시 = '%s'" %(cla, date, subjectc, date, subjectc,time))
+    cur.execute("update '%s' set %s = '%s' where %s != '%s' and 교시 = '%s'" %(finds, date, subjectc, date, subjectc,time))
     con.commit()
 
     try:
