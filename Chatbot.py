@@ -586,7 +586,7 @@ def db():
     subject = content['과목']['resolvedValue'] #과목
     print(subject)
     
-    content1 = content['내용']['value'] #수행내용
+    content1 = content['내용'] #수행내용
     print(content1)
     
     date = body['action']['detailParams']['기한']['value'] #마감기한
