@@ -731,31 +731,16 @@ def timetable_s():
 
     finds = body['action']['params']['반']
     
-    if finds==1:
-        finds='one'
-    elif finds==2:
-        finds='two'
-    elif finds==3:
-        finds='three'
-    elif finds==4:
-        finds='four'
-    elif finds==5:
-        finds='five'
-    elif finds==6:
-        finds='six'
-    elif finds==7:
-        finds='seven'
-    elif finds==8:
-        finds='eight'
-    elif finds==9:
-        finds='nine'
-    elif finds==10:
-        finds='ten' 
+    
+    cur.execute("select * from '"+finds+"'")
 
-    cur.execute('select * from %s'%finds)
+    r = ""
 
     for row in cur:
-        r = r + row + "\n"
+
+        r = r + str(row) + "\n"
+
+    print(r)
     
     result = {
         "version": "2.0",
@@ -774,26 +759,10 @@ def timetable_t():
     finds = body['action']['params']['반']
     date = body['action']['params']['요일']
     time = body['action']['params']['교시']
-    subjectf = body['action']['params']['과목1']
     subjectc = body['action']['params']['과목2']
     
-    if cla == 1:
-        n = 1
-        while n <= 7:
-            print("추가시킬 월요일 " + str(n) +"교시 과목이름을 입력하세요")
-            m = input()
-            print("추가시킬 화요일 " + str(n) +"교시 과목이름을 입력하세요")
-            tu = input()
-            print("추가시킬 수요일 " + str(n) +"교시 과목이름을 입력하세요")
-            w = input()
-            print("추가시킬 목요일 " + str(n) +"교시 과목이름을 입력하세요")
-            tr = input()
-            print("추가시킬 금요일 " + str(n) +"교시 과목이름을 입력하세요")
-            f = input()
-            con.commit()
-            cur.execute("insert into class 1 values(?,?,?,?,?)",(m,tu,w,tr,f))
-            con.commit()
-            n += 1
+    cur.execute("update '%s' set %s = '%s' where %s != '%s' and 교시 = '%s'" %(finds, date, subjectc, date, subjectc,time))
+    conn.commit()
     try:
         conn.commit()
         ans = "정상적으로 처리되었습니다."
@@ -808,7 +777,7 @@ def timetable_t():
     }
     return jsonify(result)
 
-@app.route('/timetable_alt', methods=['POST'])
+@app.route('/timetable_del', methods=['POST'])
 def timetable_del():
     body = request.get_json()
     conn = sqlite3.connect("timetable.db")
