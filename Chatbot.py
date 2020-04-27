@@ -593,7 +593,9 @@ def db():
         content1 = detail['내용']['value'] #수행내용
         print(content)
         
-        date = body['action']['detailParams']['기한']['value'] #마감기한
+        date1 = body['action']['detailParams']['기한']['value'] #마감기한
+        date = json.loads(date1)
+        date = date['value']
         print(date)
 
         d = date.split("-")
