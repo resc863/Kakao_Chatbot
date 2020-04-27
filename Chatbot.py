@@ -579,44 +579,48 @@ def db():
     body = request.get_json()
 
     content = body['contexts'][0]['params']
-
-    grade = content['학년']['resolvedValue'] #학년
-    print(grade)
-    
-    subject = content['과목']['resolvedValue'] #과목
-    print(subject)
-    
-    content1 = content['내용'] #수행내용
     print(content)
+
+    try:
+        grade = content['학년']['resolvedValue'] #학년
+        print(grade)
     
-    date = body['action']['detailParams']['기한']['value'] #마감기한
-    print(date)
+        subject = content['과목']['resolvedValue'] #과목
+        print(subject)
+    
+        content1 = content['내용'] #수행내용
+        print(content)
+        
+        date = body['action']['detailParams']['기한']['value'] #마감기한
+        print(date)
 
-    d = date.split("-")
+        d = date.split("-")
 
-    year = d[0]
-    print(year)
+        year = d[0]
+        print(year)
 
-    month = d[1]
-    print(month)
+        month = d[1]
+        print(month)
 
-    day = d[2]
-    print(day)
+        day = d[2]
+        print(day)
+    
+        conn = sqlite3.connect("2019.db")
+        cur = conn.cursor()
 
-    conn = sqlite3.connect("2019.db")
-    cur = conn.cursor()
+        cur.execute("insert into Suhang"+grade+" values (?,?,?,?,?)", (year, month, day, content1, subject))
+        conn.commit() 
+        cur.execute("select * from Suhang"+grade+" where month="+ month +" and day="+ day)
+        data = ""
 
-    cur.execute("insert into Suhang"+grade+" values (?,?,?,?,?)", (year, month, day, content1, subject))
-    conn.commit() 
-    cur.execute("select * from Suhang"+grade+" where month="+ month +" and day="+ day)
-    data = ""
-
-    for row in cur:
-        data = data+ ("과목 : " + str(row[4]) +'\n' +
-             "내용 : " + str(row[3]) + '\n' +
-             "날짜 : " + str(row[0]) + "년 " + str(row[1]) + "월 " + str(row[2]) +'일\n' +
-             "\n")
-
+        for row in cur:
+            data = data+ ("과목 : " + str(row[4]) +'\n' +
+                 "내용 : " + str(row[3]) + '\n' +
+                 "날짜 : " + str(row[0]) + "년 " + str(row[1]) + "월 " + str(row[2]) +'일\n' +
+                 "\n")
+    except:
+        data = "오류!"
+    
     print(data)
     
     result = {
