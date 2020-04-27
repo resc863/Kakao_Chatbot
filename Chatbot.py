@@ -579,7 +579,9 @@ def db():
     body = request.get_json()
 
     content = body['contexts'][0]['params']
+    detail = body['action']['detailParams']
     print(content)
+    print(detail)
 
     try:
         grade = content['학년']['resolvedValue'] #학년
@@ -629,7 +631,10 @@ def db():
             "db": data
         }
     }
-    conn.close()
+    try:
+        conn.close()
+    except:
+        print('Error')
     
     return jsonify(result)
 
