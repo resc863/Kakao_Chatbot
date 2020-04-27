@@ -587,7 +587,7 @@ def db():
     print(subject)
     
     content1 = content['내용'] #수행내용
-    print(content1)
+    print(content['내용'])
     
     date = body['action']['detailParams']['기한']['value'] #마감기한
     print(date)
