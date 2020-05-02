@@ -640,6 +640,11 @@ def db():
     
     return jsonify(result)
 
+@app.route('/db_del', methods=['POST'])
+def db_del():
+    body = request.get_json()
+    content = body['contexts'][0]['params']
+
 @app.route('/search', methods=['POST'])
 def search():
     body = request.get_json()
