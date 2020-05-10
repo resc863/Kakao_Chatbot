@@ -7,12 +7,42 @@ import urllib, requests, re
 import json, sqlite3
 import datetime
 import time
-import random
+import random, threading
 from datetime import date
 import sys
 
 ERROR_MESSAGE = '네트워크 접속에 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.'
 
+def auto():
+    con = sqlite3.connect("2019.db")
+    threading.Timer(3600*24, auto).start()
+
+    cur = con.cursor()
+
+    now = datetime.datetime.now()
+
+    time = (str(now.year) + " " +  str(now.month) + " " + str(now.day))
+
+    for cnt in range(1, 4):
+        cur.execute("select count('month') from Suhang"+str(cnt))
+        con.commit()
+        rows=cur.fetchone()
+        cur.execute("select month from Suhang"+str(cnt))
+        con.commit()
+        a=cur.fetchall()
+        cur.execute("select day from Suhang"+str(cnt))
+        con.commit()
+        b=cur.fetchall()
+        i=0
+    
+        for i in range(rows[0]):
+            if a[i][0]==now.month:
+                if b[i][0]==now.day:
+                    print("Deleted")
+                    cur.execute("delete from Suhang"+str(cnt)+" where day='%d'"%b[i][0])
+                    con.commit()
+                
+    con.close()
 
 app = Flask(__name__)
 
@@ -640,11 +670,6 @@ def db():
     
     return jsonify(result)
 
-@app.route('/db_del', methods=['POST'])
-def db_del():
-    body = request.get_json()
-    content = body['contexts'][0]['params']
-
 @app.route('/search', methods=['POST'])
 def search():
     body = request.get_json()
@@ -811,5 +836,5 @@ def timetable_del():
 
 
 if __name__ == '__main__':
-
+    auto()
     app.run(host='0.0.0.0', port=5000, threaded=True)
