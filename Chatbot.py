@@ -756,11 +756,11 @@ def mask():
 @app.route('/timetable_s', methods=['POST'])
 def timetable_s():
     body = request.get_json()
+
+    #grade = body['action']['params']['학년']
+    finds = body['action']['params']['반']
     conn = sqlite3.connect("timetable.db")
     cur = conn.cursor()
-
-    finds = body['action']['params']['반']
-    
     
     cur.execute("select * from '"+finds+"'")
 
