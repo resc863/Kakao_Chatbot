@@ -774,8 +774,8 @@ def timetable_s():
         cur.execute("select * from '"+finds+"'")
     
 
-    a = '       월    화    수    목     금          '
-    
+    a = '       월    화    수    목     금          \n'
+
     for row in cur:
         a = a + '   ' + str(row[0])+'   '+ str(row[1]) +'   '+str(row[2]) +'   '+str(row[3]) +'   '+str(row[4])+'   '+str(row[5] + "\n")
         a =  a + "\n"
