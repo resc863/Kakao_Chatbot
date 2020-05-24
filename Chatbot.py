@@ -756,6 +756,7 @@ def mask():
 @app.route('/timetable_s', methods=['POST'])
 def timetable_s():
     body = request.get_json()
+    print(body)
 
     #grade = body['action']['params']['학년']
     finds = body['action']['params']['반']
