@@ -774,18 +774,18 @@ def timetable_s():
         cur.execute("select * from '"+finds+"'")
     
 
-    r = ""
-
+    a = '       월    화    수    목     금          '
+    
     for row in cur:
+        a = a + '   ' + str(row[0])+'   '+ str(row[1]) +'   '+str(row[2]) +'   '+str(row[3]) +'   '+str(row[4])+'   '+str(row[5] + "\n")
+        a =  a + "\n"
 
-        r = r + str(row) + "\n"
-
-    print(r)
+    print(a)
     
     result = {
         "version": "2.0",
         "data": {
-            "timetable": r
+            "timetable": a
         }
     }
     return jsonify(result)
