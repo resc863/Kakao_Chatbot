@@ -758,7 +758,7 @@ def timetable_s():
     finds = body['action']['params']['반']
 
     if grade == "1":
-        conn = sqlite3.connect("timetable.db")
+        conn = sqlite3.connect("timetable1.db")
         cur = conn.cursor()
     
         cur.execute("select * from '"+finds+"'")
