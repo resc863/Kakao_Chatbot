@@ -609,6 +609,7 @@ def db():
     content = body['contexts'][0]['params']
     detail = body['action']['detailParams']
     print(content)
+    print(detail)
 
     grade = content['학년']['resolvedValue'] #학년
     print(grade)
