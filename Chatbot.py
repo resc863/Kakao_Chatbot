@@ -643,7 +643,7 @@ def db():
     print(pwd)
     print(pwd1)
 
-    if pwd != pwd1:
+    if str(pwd) != str(pwd1):
         print("비밀번호가 맞지 않습니다")
         result = {
             "version": "2.0",
