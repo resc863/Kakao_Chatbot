@@ -619,6 +619,8 @@ def db():
     
         content1 = detail['내용']['value'] #수행내용
         print(content)
+
+        pwd = content['비밀번호']['resolvedValue']
         
         date1 = body['action']['detailParams']['기한']['value'] #마감기한
         date = json.loads(date1)
@@ -635,6 +637,19 @@ def db():
 
         day = d[2]
         print(day)
+
+        f = open("/root/password.txt", "r")
+
+        if pwd != f.readline():
+            print("비밀번호가 맞지 않습니다")
+            result = {
+                "version": "2.0",
+                "data": {
+                "db": "비밀번호가 맞지 않습니다"
+                }
+            }
+    
+            return jsonify(result)
     
         conn = sqlite3.connect("2019.db")
         cur = conn.cursor()
