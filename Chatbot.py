@@ -638,6 +638,7 @@ def db():
     day = d[2]
     print(day)
 
+    pwd = pwd + "\n"
     f = open("/root/password.txt", "r")
     pwd1 = f.readline()
     print(pwd)
