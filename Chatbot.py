@@ -641,6 +641,7 @@ def db():
     f = open("/root/password.txt", "r")
     pwd1 = f.readline()
     print(pwd)
+    print(pwd1)
 
     if pwd != pwd1:
         print("비밀번호가 맞지 않습니다")
