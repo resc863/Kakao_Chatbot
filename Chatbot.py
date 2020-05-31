@@ -602,13 +602,13 @@ def schedule():
     
     return jsonify(result)
 
-@app.route('/db', methods=['POST'])
+@app.route('/db', methods=['POST']) #수행평가 추가
 def db():
     body = request.get_json()
 
     content = body['contexts'][0]['params']
     detail = body['action']['detailParams']
-    
+    print(content)
 
     try:
         grade = content['학년']['resolvedValue'] #학년
@@ -667,7 +667,7 @@ def db():
     
     return jsonify(result)
 
-@app.route('/search', methods=['POST'])
+@app.route('/search', methods=['POST']) #수행평가 검색
 def search():
     body = request.get_json()
 
@@ -750,7 +750,7 @@ def mask():
     }
     return jsonify(result)
 
-@app.route('/timetable_s', methods=['POST'])
+@app.route('/timetable_s', methods=['POST']) #시간표 조회
 def timetable_s():
     body = request.get_json()
 
@@ -790,7 +790,7 @@ def timetable_s():
     }
     return jsonify(result)
 
-@app.route('/timetable_t', methods=['POST'])
+@app.route('/timetable_t', methods=['POST']) #시간표 수정
 def timetable_t():
     body = request.get_json()
     conn = sqlite3.connect("timetable.db")
@@ -817,7 +817,7 @@ def timetable_t():
     }
     return jsonify(result)
 
-@app.route('/timetable_del', methods=['POST'])
+@app.route('/timetable_del', methods=['POST']) #시간표 삭제
 def timetable_del():
     body = request.get_json()
     conn = sqlite3.connect("timetable.db")
