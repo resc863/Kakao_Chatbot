@@ -610,52 +610,52 @@ def db():
     detail = body['action']['detailParams']
     print(content)
 
-    try:
-        grade = content['학년']['resolvedValue'] #학년
-        print(grade)
+    grade = content['학년']['resolvedValue'] #학년
+    print(grade)
     
-        subject = content['과목']['resolvedValue'] #과목
-        print(subject)
+    subject = content['과목']['resolvedValue'] #과목
+    print(subject)
     
-        content1 = detail['내용']['value'] #수행내용
-        print(content)
+    content1 = detail['내용']['value'] #수행내용
+    print(content)
 
-        pwd = content['비밀번호']['value']
+    pwd = content['비밀번호']['value']
         
-        date1 = body['action']['detailParams']['기한']['value'] #마감기한
-        date = json.loads(date1)
-        date = date['value']
-        print(date)
+    date1 = body['action']['detailParams']['기한']['value'] #마감기한
+    date = json.loads(date1)
+    date = date['value']
+    print(date)
 
-        d = date.split("-")
+    d = date.split("-")
 
-        year = d[0]
-        print(year)
+    year = d[0]
+    print(year)
 
-        month = d[1]
-        print(month)
+    month = d[1]
+    print(month)
 
-        day = d[2]
-        print(day)
+    day = d[2]
+    print(day)
 
-        f = open("/root/password.txt", "r")
-        pwd1 = f.readline()
-        print(pwd1)
+    f = open("/root/password.txt", "r")
+    pwd1 = f.readline()
+    print(pwd1)
 
-        if pwd != pwd1:
-            print("비밀번호가 맞지 않습니다")
-            result = {
-                "version": "2.0",
-                "data": {
-                    "db": "비밀번호가 맞지 않습니다"
-                }
+    if pwd != pwd1:
+        print("비밀번호가 맞지 않습니다")
+        result = {
+            "version": "2.0",
+            "data": {
+                "db": "비밀번호가 맞지 않습니다"
             }
+        }
     
-            return jsonify(result)
+        return jsonify(result)
     
-        conn = sqlite3.connect("2019.db")
-        cur = conn.cursor()
+    conn = sqlite3.connect("2019.db")
+    cur = conn.cursor()
 
+    try:
         cur.execute("insert into Suhang"+grade+" values (?,?,?,?,?)", (year, month, day, content1, subject))
         conn.commit() 
         cur.execute("select * from Suhang"+grade+" where month="+ month +" and day="+ day)
@@ -663,11 +663,12 @@ def db():
 
         for row in cur:
             data = data+ ("과목 : " + str(row[4]) +'\n' +
-                 "내용 : " + str(row[3]) + '\n' +
-                 "날짜 : " + str(row[0]) + "년 " + str(row[1]) + "월 " + str(row[2]) +'일\n' +
-                 "\n")
+                    "내용 : " + str(row[3]) + '\n' +
+                    "날짜 : " + str(row[0]) + "년 " + str(row[1]) + "월 " + str(row[2]) +'일\n' +
+                    "\n")
     except:
-        data = "오류!"
+        data = "DB 오류!"
+    
     
     print(data)
     
