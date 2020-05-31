@@ -620,7 +620,7 @@ def db():
     content1 = detail['내용']['value'] #수행내용
     print(content)
 
-    pwd = content['비밀번호']['value']
+    pwd = detail['비밀번호']['value']
         
     date1 = body['action']['detailParams']['기한']['value'] #마감기한
     date = json.loads(date1)
