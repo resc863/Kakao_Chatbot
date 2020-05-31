@@ -620,7 +620,7 @@ def db():
     content1 = detail['내용']['value'] #수행내용
     print(content)
 
-    pwd = str(detail['비밀번호']['origin'])
+    pwd = detail['비밀번호']['origin'] #문자열
         
     date1 = body['action']['detailParams']['기한']['value'] #마감기한
     date = json.loads(date1)
@@ -639,11 +639,11 @@ def db():
     print(day)
 
     f = open("/root/password.txt", "r")
-    pwd1 = str(f.readline())
+    pwd1 = f.readline()
     print(pwd)
     print(pwd1)
 
-    if pwd == pwd1:
+    if pwd == str(pwd1):
         print("일치")
 
     if pwd != pwd1:
