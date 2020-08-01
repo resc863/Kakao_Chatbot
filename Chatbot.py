@@ -441,7 +441,7 @@ def weather():
     weather1 = forecast()
     w = "부산 현재 날씨\n\n"
 
-    for i in weather:
+    for i in weather1:
         date = datetime.datetime.fromtimestamp(i['dt']).strftime('%Y-%m-%d %H:%M:%S')
         print("예보 시각: "+date)
         w = w + "예보 시각: "+date + "\n"
