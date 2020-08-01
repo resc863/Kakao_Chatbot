@@ -1,4 +1,5 @@
 #-*-coding:utf-8-*-
+# 주의:github 저장소에는 보안상의 이유로 토큰들을 누락함.
 
 from flask import Flask, request, jsonify
 from urllib.request import urlopen
@@ -330,9 +331,9 @@ def print_get_meal(local_date, local_weekday):
             meal = lunch + dinner
             return meal
         
-def forecast() : #날씨 예보 파싱 함수 - TODO: OpenWeatherMap API
+def forecast() : #TODO: OpenWeatherMap API 키는 알아서 처리할것
 
-    key = "23fb1206721ca9dd443fbc3f6b4f20ec"
+    key = ""
     url = "http://api.openweathermap.org/data/2.5/forecast?q=busan&cnt=10&units=metric&lang=kr&APPID="+key
 
     html = requests.get(url).text
