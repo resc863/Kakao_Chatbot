@@ -330,7 +330,7 @@ def print_get_meal(local_date, local_weekday):
             meal = lunch + dinner
             return meal
         
-def forecast() : #날씨 예보 파싱 함수
+def forecast() : #날씨 예보 파싱 함수 - TODO: OpenWeatherMap API
 
     y,m,d,h,mi = dayCal()
   
