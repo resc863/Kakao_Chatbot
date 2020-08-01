@@ -1,5 +1,4 @@
 bs4
-urllib 
 requests
 sqlite3
 datetime
