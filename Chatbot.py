@@ -447,12 +447,12 @@ def weather():
         w = w + "예보 시각: "+date + "\n"
         temp = i['main']['temp']
         print("기온: "+str(temp))
-        w = w + "기온: "+str(temp) + "\n"
+        w = w + "기온: "+str(temp)+ " C" + "\n"
         feel = i['main']['feels_like']
         print("체감 기온: "+str(feel))
         humidity = i['main']['humidity']
         print("습도: "+str(humidity))
-        w = w + "습도: "+str(humidity) + "\n\n"
+        w = w + "습도: "+str(humidity)+ " %" + "\n\n"
         cloud = i['weather'][0]['description']
         print("구름: "+cloud)
         print("="*20)
