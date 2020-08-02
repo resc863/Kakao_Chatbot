@@ -1,6 +1,5 @@
 bs4
-urllib 
 requests
-sqlite3
+pysqlite3
 datetime
 flask

@@ -1,4 +1,5 @@
 #-*-coding:utf-8-*-
+# 주의:github 저장소에는 보안상의 이유로 토큰들을 누락함.
 
 from flask import Flask, request, jsonify
 from urllib.request import urlopen
@@ -330,89 +331,18 @@ def print_get_meal(local_date, local_weekday):
             meal = lunch + dinner
             return meal
         
-def forecast() : #날씨 예보 파싱 함수
+def forecast() : #TODO: OpenWeatherMap API 키는 알아서 처리할것
 
-    y,m,d,h,mi = dayCal()
-  
-    key = 'ExhrDuBJZ28eMHPRIyFToDuqoT1Lx3ViPoI3uKVLS%2FyucnbaLbQISs4%2FSJWf0AzAV1gkbbtZK5GWvO9clF%2B1aQ%3D%3D'
-    #발급받은 인증키
-    url = 'http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey='+key+'&base_date='+y+m+d+'&base_time='+h+'00&nx=99&ny=75&numOfRows=90&pageNo=1&_type=json'
-    #파싱할 json의 url
-  
-    rs = urlopen(url).read().decode('utf-8')
-    #url주소를 읽어 내용을 'utf-8'형식으로 디코딩하여 문자열 반환
-    json_data = json.loads(rs)
-    #반환한 문자열을 json형식으로 읽음
-    info = json_data.get("response").get("body").get("items").get("item")
-   #필요한 정보부분만 따로 추출
+    key = ""
+    url = "http://api.openweathermap.org/data/2.5/forecast?q=busan&cnt=10&units=metric&lang=kr&APPID="+key
 
-    ft = str(info[0].get("fcstTime"))
-    pop = ''
-    pty = ''
-    reh = ''
-    sky = ''
-    t3h = ''
-    tmn = ''
-    tmx = ''
-    vec = ''
-    wsd = ''
-    apm = ''
-    for i in range(len(info)) :
-        cate = info[i].get("category");
-        value = str(info[i].get("fcstValue"))
-        if str(info[i].get("fcstTime")) == ft :
-            if cate == 'POP' :
-                pop = value
-                #강수확률
-            elif cate == 'PTY' :
-                if value == '1' :
-                    pty = ', 비'
-                elif value == '2' :
-                    pty = ', 비/눈'
-                elif value == '3' :
-                    pty = ', 눈/비'
-                elif value == '4' :
-                    pty = ', 눈'
-            #강수형태
-            elif cate == 'REH' :
-                reh = value
-            #습도
-            elif cate == 'SKY' :
-                if value == '1' :
-                    sky = '맑음'
-                elif value == '2' :
-                    sky = '구름조금'
-                elif value == '3' :
-                    sky = '구름많음'
-                elif value == '4' :
-                    sky = '흐림'
-            #하늘상태
-            elif cate == 'T3H' :
-                t3h = value
-            #3시간 기온
-            elif cate == 'WSD' :
-                wsd = value
-            #풍속
-            if str(info[i].get("fcstTime")) == '1500' :
-                if cate == 'TMX' :
-                    tmx = value
-            if str(info[i].get("fcstTime")) == '0600' :
-                if cate == 'TMN' :
-                    tmn = value
-        
-    if int(ft) < 1200 :
-        apm = '오전 '
-    elif int(ft) == 1200 :
-        apm = '정오 '
-    else :
-        apm = '오후 '
-        ft = str(int(ft)-1200)
-        if int(ft) < 1000 :
-            ft = '0'+ft
+    html = requests.get(url).text
+    data = json.loads(html)
 
-    p = apm+ft[:2]+':'+ft[2:]+' 예보\n\n최고 : '+tmx+'°C  최저 : '+tmn+'°C\n'+sky+pty+'\n'+t3h+'°C\n습도 : '+reh+'%\n강수확률 : '+pop+'%\n풍속 : '+wsd+'m/s'
+    name = data['city']['name']
+    weather = data['list']
  
-    return p
+    return weather
 
 
 @app.route('/keyboard')
@@ -510,11 +440,28 @@ def test():
 @app.route('/weather', methods=['POST'])
 def weather():
     weather1 = forecast()
-    print(weather1)
+    w = "부산 현재 날씨\n\n"
+
+    for i in weather1:
+        date = datetime.datetime.fromtimestamp(i['dt']).strftime('%Y-%m-%d %H:%M:%S')
+        print("예보 시각: "+date)
+        w = w + "예보 시각: "+date + "\n"
+        temp = i['main']['temp']
+        print("기온: "+str(temp))
+        w = w + "기온: "+str(temp)+ " C" + "\n"
+        feel = i['main']['feels_like']
+        print("체감 기온: "+str(feel))
+        humidity = i['main']['humidity']
+        print("습도: "+str(humidity))
+        w = w + "습도: "+str(humidity)+ " %" + "\n\n"
+        cloud = i['weather'][0]['description']
+        print("구름: "+cloud)
+        print("="*20)
+
     result = {
         "version": "2.0",
         "data": {
-            "weather": weather1
+            "weather": w
         }
     }
     return jsonify(result)
