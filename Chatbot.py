@@ -14,13 +14,13 @@ import sys
 
 ERROR_MESSAGE = '네트워크 접속에 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.'
 
-def auto():
-    con = sqlite3.connect("2019.db")
+def auto(): # 수행평가 DB에서 기한이 만료된 수행평가를 삭제
+    con = sqlite3.connect("2019.db") #DB 연결
     threading.Timer(3600*24, auto).start()
 
     cur = con.cursor()
 
-    now = datetime.datetime.now()
+    now = datetime.datetime.now() # 오늘 날짜 처리
 
     time = (str(now.year) + " " +  str(now.month) + " " + str(now.day))
 
@@ -47,7 +47,7 @@ def auto():
 
 app = Flask(__name__)
 
-def maskinfo(location):
+def maskinfo(location): # 공적마스크 조회 - 폐지됨
     location = urllib.parse.quote(location)
     url = "https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByAddr/json?address="+location
 
@@ -56,7 +56,7 @@ def maskinfo(location):
 
     return data
 
-def lineid(lineno):    
+def lineid(lineno): # 버스노선 ID 조회   
     lineurl = "http://61.43.246.153/openapi-data/service/busanBIMS2/busInfo?lineno="+lineno+"&serviceKey=0XeO7nbthbiRoMUkYGGah20%2BfXizwc0A6BfjrkL6qhh2%2Fsl8j9PzfSLGKnqR%2F1v%2F%2B6AunxntpLfoB3Ryd3OInQ%3D%3D"
     lineid2 = requests.get(lineurl).text
     lineid1 = BeautifulSoup(lineid2, "html.parser")
@@ -65,8 +65,8 @@ def lineid(lineno):
 
     return lineid
 
-def nextstop(no, lineno):
-    lineid1 = lineid(lineno)
+def nextstop(no, lineno): # 버스의 다음 정류장 조회
+    lineid1 = lineid(lineno) # 현재 노선 ID
     url = "http://61.43.246.153/openapi-data/service/busanBIMS2/busInfoRoute?lineid="+lineid1+"&serviceKey=0XeO7nbthbiRoMUkYGGah20%2BfXizwc0A6BfjrkL6qhh2%2Fsl8j9PzfSLGKnqR%2F1v%2F%2B6AunxntpLfoB3Ryd3OInQ%3D%3D"
     text = requests.get(url).text
     soup = BeautifulSoup(text, "html.parser")
@@ -91,10 +91,10 @@ def nextstop(no, lineno):
             nextstop = item.bstopnm.string
             return nextstop
 
-def bus():
+def bus(): # TODO: 비동기 프로그래밍을 적용할것
     result = "양운고 앞 대림1차아파트 정보\n\n"
-    bus1="186190402"
-    bus2="186210101"
+    bus1="186190402" # 상행
+    bus2="186210101" # 하행
     url1 = 'http://61.43.246.153/openapi-data/service/busanBIMS2/stopArr?serviceKey=ExhrDuBJZ28eMHPRIyFToDuqoT1Lx3ViPoI3uKVLS%2FyucnbaLbQISs4%2FSJWf0AzAV1gkbbtZK5GWvO9clF%2B1aQ%3D%3D&bstopid='+bus1
     url2 = 'http://61.43.246.153/openapi-data/service/busanBIMS2/stopArr?serviceKey=ExhrDuBJZ28eMHPRIyFToDuqoT1Lx3ViPoI3uKVLS%2FyucnbaLbQISs4%2FSJWf0AzAV1gkbbtZK5GWvO9clF%2B1aQ%3D%3D&bstopid='+bus2
     
@@ -285,7 +285,7 @@ def get_diet(code, ymd, weekday):
     else:
         num = weekday + 1 
         URL = (
-                "http://stu.pen.go.kr/sts_sci_md01_001.do?"
+                "http://stu.pen.go.kr/sts_sci_md01_001.do?" # 작동이 안될시 수정할것
                 "schulCode=C100000521&schulCrseScCode=4"
                 "&schulKndScCode=04"
                 "&schMmealScCode=%d&schYmd=%s" % (schMmealScCode, schYmd)
@@ -315,14 +315,14 @@ def get_diet(code, ymd, weekday):
     return element
 
 def print_get_meal(local_date, local_weekday):
-        l_diet = get_diet(2, local_date, local_weekday)
-        d_diet = get_diet(3, local_date, local_weekday)
+        l_diet = get_diet(2, local_date, local_weekday) # 점심
+        d_diet = get_diet(3, local_date, local_weekday) # 저녁
 
         if len(l_diet) == 1:
             result = "급식이 없습니다."
             return result
             
-        elif len(d_diet) == 1:
+        elif len(d_diet) == 1: # 중식만 있을경우
             lunch = local_date + " 중식\n\n" + l_diet
             return lunch
         else:
@@ -359,6 +359,8 @@ def tomorrow_meal():
     y = str(list(time.localtime(time.time()))[0])
     m = str(list(time.localtime(time.time()))[1])
     d = str(list(time.localtime(time.time()))[2])
+    
+    # 다음날을 구하기 위해 윤년, 2월, 30-31일을 고려할것
     
     if m == '12' and d == '31' :
         y = str(int(y)+1)
@@ -432,7 +434,7 @@ def test():
     result = {
         "version": "2.0",
         "data": {
-            "dust": 'testing'
+            "test": 'testing'
         }
     }
     return jsonify(result)
@@ -477,8 +479,8 @@ def meal():
     try : 
       whatday = datetime.datetime.now().weekday()
     except :
-        result = {
-            "version": "2.0",
+        result = {   # 전송 양식
+            "version": "2.0", # 스킬 버전
             "data": {
                 "meal": "급식이 없습니다."
             }
@@ -497,7 +499,7 @@ def meal():
     
     return jsonify(result)
 
-@app.route('/schedule', methods=['POST'])
+@app.route('/schedule', methods=['POST']) # NEIS 크롤링 문제 발생 TODO: DB를 구축할것
 def schedule():
     
     
@@ -651,7 +653,7 @@ def businfo():
     }
     return jsonify(result)
 
-@app.route('/mask', methods=['POST'])
+@app.route('/mask', methods=['POST']) # 폐지
 def mask():
     info = maskinfo("부산광역시 해운대구 좌동")  
 
@@ -677,7 +679,7 @@ def mask():
     result = {
         "version": "2.0",
         "data": {
-            "mask": data
+            "mask": "공적마스크 제도는 폐지되었습니다"
         }
     }
     return jsonify(result)
