@@ -333,7 +333,8 @@ def print_get_meal(local_date, local_weekday):
         
 def forecast() : #TODO: OpenWeatherMap API 키는 알아서 처리할것
 
-    key = ""
+    f = open("/root/weather_key.txt", "r")
+    key = f.readline()
     url = "http://api.openweathermap.org/data/2.5/forecast?q=busan&cnt=10&units=metric&lang=kr&APPID="+key
 
     html = requests.get(url).text
@@ -504,9 +505,12 @@ def someday_meal():
     request_body = request.get_json()  # request body 받음
     params = request_body['action']['params'] # action > params로 파라미터에 접근
 
-    print(request_body)
+    print(params)
+
+    j = params['날짜']
+    j1 = json.loads(j)
     
-    today = request_body['action']['detailParams']['기한']['value']
+    today = j1['value']
     d = today.split('-')
     year = d[0]
     month = d[1]
