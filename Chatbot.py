@@ -499,6 +499,44 @@ def meal():
     
     return jsonify(result)
 
+@app.route('/someday_meal', methods=['POST'])
+def someday_meal():
+    request_body = request.get_json()  # request body 받음
+    params = request_body['action']['params'] # action > params로 파라미터에 접근
+
+    print(request_body)
+    
+    today = request_body['action']['detailParams']['기한']['value']
+    d = today.split('-')
+    year = d[0]
+    month = d[1]
+    day = d[2]
+
+    today = str(today).replace("-", ".")
+    
+    try : 
+      whatday = datetime.datetime(int(year), int(month), int(day)).weekday()
+    except :
+        result = {   # 전송 양식
+            "version": "2.0", # 스킬 버전
+            "data": {
+                "meal": "급식이 없습니다."
+            }
+        }
+        return jsonify(result)
+    
+    print(str(today)+"\n"+str(whatday))
+    meal = print_get_meal(today, whatday)
+    print(meal)
+    result = {
+        "version": "2.0",
+        "data": {
+            "meal": meal
+        }
+    }
+    
+    return jsonify(result)
+
 @app.route('/schedule', methods=['POST']) # NEIS 크롤링 문제 발생 TODO: DB를 구축할것
 def schedule():
     
