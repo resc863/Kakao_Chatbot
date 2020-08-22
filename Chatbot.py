@@ -47,6 +47,94 @@ def auto(): # 수행평가 DB에서 기한이 만료된 수행평가를 삭제
 
 app = Flask(__name__)
 
+def cnt1():
+    year=datetime.datetime.now().year
+    month=datetime.datetime.now().month
+    month=str(month)
+    day=datetime.datetime.now().day 
+
+    if len(str(month)) == 1 :
+        month="0"+str(month)
+
+    fanta=str(year)+str(month)+str(day)
+    url="http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson?serviceKey=JGMlPMEcTuNV8sbu5JRfjhwjPXMdCv1OJ1qQefm0vVuKWGKtGHAcJEWtm63GOVyMQYAcI%2BoXUBe0nsJ4w3RiZw%3D%3D&pageNo=1&numOfRows=10&startCreateDt="+fanta+"&endCreateDt="+fanta #call back url
+    test_url="http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson?serviceKey=JGMlPMEcTuNV8sbu5JRfjhwjPXMdCv1OJ1qQefm0vVuKWGKtGHAcJEWtm63GOVyMQYAcI%2BoXUBe0nsJ4w3RiZw%3D%3D&pageNo=1&numOfRows=10&startCreateDt=20200821&endCreateDt=20200821"
+
+    cola=requests.get(url).text
+    sida=BeautifulSoup(cola, "html.parser")
+    items=sida.find("items")
+    result = "\n"
+
+    for item in items :
+        try:
+            hapgae=item.find("gubun").string
+        except:
+            continue
+        if hapgae == "합계" :
+            try:
+                incdec=item.find("incdec").string
+                result = result + "전국 일일 확진자수 : "+incdec+"명\n"
+            except:
+                pass
+        if hapgae == "부산" :
+            try:
+                incdec=item.find("incdec").string
+                result = result + "부산 일일 확진자수 : "+incdec+"명\n"
+            except:
+                pass
+        if hapgae == "합계" :
+            try:
+                deathcnt=item.find("deathcnt").string
+                result = result + "누적 사망자 : "+deathcnt+"명"
+            except:
+                pass
+    
+    return result
+
+def cnt2():
+    year=datetime.datetime.now().year
+    month=datetime.datetime.now().month
+    month=str(month)
+    day=datetime.datetime.now().day 
+
+    if len(str(month)) == 1 :
+        month="0"+str(month)
+
+    fanta=str(year)+str(month)+str(day)
+    url="http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson?serviceKey=JGMlPMEcTuNV8sbu5JRfjhwjPXMdCv1OJ1qQefm0vVuKWGKtGHAcJEWtm63GOVyMQYAcI%2BoXUBe0nsJ4w3RiZw%3D%3D&pageNo=1&numOfRows=10&startCreateDt="+fanta+"&endCreateDt="+fanta #call back url
+    test_url="http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson?serviceKey=JGMlPMEcTuNV8sbu5JRfjhwjPXMdCv1OJ1qQefm0vVuKWGKtGHAcJEWtm63GOVyMQYAcI%2BoXUBe0nsJ4w3RiZw%3D%3D&pageNo=1&numOfRows=10&startCreateDt=20200821&endCreateDt=20200821"
+
+    cola=requests.get(url).text
+    sida=BeautifulSoup(cola, "html.parser")
+    items=sida.find("items")
+    result = "\n"
+
+    for item in items :
+        try:
+            hapgae=item.find("gubun").string
+        except:
+            continue
+        if hapgae == "합계" :
+            try:
+                defcnt=item.find("defcnt").string
+                result = result + "전국 누적 확진자수 : "+defcnt+"명\n"
+            except:
+                pass
+        if hapgae == "부산" :
+            try:
+                defcnt=item.find("defcnt").string
+                result = result + "부산 일일 확진자수 : "+defcnt+"명\n"
+            except:
+                pass
+        if hapgae == "합계" :
+            try:
+                deathcnt=item.find("deathcnt").string
+                result = result + "누적 사망자 : "+deathcnt+"명"
+            except:
+                pass
+    
+    return result
+
 def maskinfo(location): # 공적마스크 조회 - 폐지됨
     location = urllib.parse.quote(location)
     url = "https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByAddr/json?address="+location
@@ -549,6 +637,34 @@ def schedule():
         "version": "2.0",
         "data": {
             "schedule": "현재 기능이 제공되지 않습니다"
+        }
+    }
+    
+    return jsonify(result)
+
+@app.route('/cnt', methods=['POST']) 
+def cnt():
+    data = cnt1()
+    print(data)
+    
+    result = {
+        "version": "2.0",
+        "data": {
+            "cnt": data
+        }
+    }
+    
+    return jsonify(result)
+
+@app.route('/total_cnt', methods=['POST']) 
+def total_cnt():
+    data = cnt2()
+    print(data)
+    
+    result = {
+        "version": "2.0",
+        "data": {
+            "cnt": data
         }
     }
     
