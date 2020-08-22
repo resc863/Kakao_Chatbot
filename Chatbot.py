@@ -63,7 +63,7 @@ def cnt1():
     cola=requests.get(url).text
     sida=BeautifulSoup(cola, "html.parser")
     items=sida.find("items")
-    result = "\n"
+    result = [0, 0, 0]
 
     for item in items :
         try:
@@ -73,19 +73,19 @@ def cnt1():
         if hapgae == "합계" :
             try:
                 incdec=item.find("incdec").string
-                result = result + "전국 일일 확진자수 : "+incdec+"명\n"
+                result[0]=incdec
             except:
                 pass
         if hapgae == "부산" :
             try:
                 incdec=item.find("incdec").string
-                result = result + "부산 일일 확진자수 : "+incdec+"명\n"
+                result[1]=incdec
             except:
                 pass
         if hapgae == "합계" :
             try:
                 deathcnt=item.find("deathcnt").string
-                result = result + "누적 사망자 : "+deathcnt+"명"
+                result[2]=deathcnt
             except:
                 pass
     
@@ -107,7 +107,7 @@ def cnt2():
     cola=requests.get(url).text
     sida=BeautifulSoup(cola, "html.parser")
     items=sida.find("items")
-    result = "\n"
+    result = [0, 0, 0]
 
     for item in items :
         try:
@@ -117,19 +117,19 @@ def cnt2():
         if hapgae == "합계" :
             try:
                 defcnt=item.find("defcnt").string
-                result = result + "전국 누적 확진자수 : "+defcnt+"명\n"
+                result[0]=defcnt
             except:
                 pass
         if hapgae == "부산" :
             try:
                 defcnt=item.find("defcnt").string
-                result = result + "부산 일일 확진자수 : "+defcnt+"명\n"
+                result[1]=defcnt
             except:
                 pass
         if hapgae == "합계" :
             try:
                 deathcnt=item.find("deathcnt").string
-                result = result + "누적 사망자 : "+deathcnt+"명"
+                result[2]=deathcnt
             except:
                 pass
     
@@ -650,7 +650,9 @@ def cnt():
     result = {
         "version": "2.0",
         "data": {
-            "cnt": data
+            "total": data[0],
+            "cnt" : data[1],
+            "death" : data[2]
         }
     }
     
@@ -664,7 +666,9 @@ def total_cnt():
     result = {
         "version": "2.0",
         "data": {
-            "cnt": data
+            "total": data[0],
+            "cnt" : data[1],
+            "death" : data[2]
         }
     }
     
