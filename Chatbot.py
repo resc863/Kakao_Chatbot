@@ -421,7 +421,7 @@ def print_get_meal(local_date, local_weekday):
         
 def forecast() : #TODO: OpenWeatherMap API 키는 알아서 처리할것
 
-    f = open("/root/weather_key.txt", "r")
+    f = open("/home/kakao/kakao/weather_key.txt", "r")
     key = f.readline()
     url = "http://api.openweathermap.org/data/2.5/forecast?q=busan&cnt=10&units=metric&lang=kr&APPID="+key
 
@@ -711,7 +711,7 @@ def db():
     print(day)
 
     pwd = pwd + "\n"
-    f = open("/root/password.txt", "r")
+    f = open("/home/kakao/kakao/password.txt", "r")
     pwd1 = f.readline()
     print(pwd)
     print(pwd1)
