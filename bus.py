@@ -83,7 +83,7 @@ def process(b):
 def bus():
     result = "양운고 앞 대림1차아파트 정보\n\n"
 
-    pool = Pool(processes=8)
+    pool = Pool(processes=2)
 
     html = pool.map(getinfo, '0')[0]
     print("00000")
