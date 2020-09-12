@@ -10,7 +10,7 @@ import datetime, time
 import random, threading
 from datetime import date
 import sys
-import cnt, bus, dust, meal
+import count, bus, getdust, school_meal
 
 ERROR_MESSAGE = '네트워크 접속에 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.'
 
@@ -58,7 +58,7 @@ def maskinfo(location): # 공적마스크 조회 - 폐지됨
         
 def forecast() : #TODO: OpenWeatherMap API 키는 알아서 처리할것
 
-    f = open("/home/kakao/kakao/weather_key.txt", "r")
+    f = open("/home/kakao/weather_key.txt", "r")
     key = f.readline()
     url = "http://api.openweathermap.org/data/2.5/forecast?q=busan&cnt=10&units=metric&lang=kr&APPID="+key
 
@@ -130,7 +130,7 @@ def tomorrow_meal():
         }
         return jsonify(result)
 
-    tomorrow_meal = meal.print_get_meal(tomorrow, whatday)
+    tomorrow_meal = school_meal.print_get_meal(tomorrow, whatday)
     print(tomorrow_meal)
     result = {
         "version": "2.0",
@@ -144,7 +144,7 @@ def tomorrow_meal():
   
 @app.route('/dust', methods=['POST'])
 def dust():
-    d = dust.get_micro('좌동')
+    d = getdust.get_micro('좌동')
     print(d)
     result = {
         "version": "2.0",
@@ -214,7 +214,7 @@ def meal():
         return jsonify(result)
     
     print(str(today)+"\n"+str(whatday))
-    meal = meal.print_get_meal(today, whatday)
+    meal = school_meal.print_get_meal(today, whatday)
     print(meal)
     result = {
         "version": "2.0",
@@ -255,7 +255,7 @@ def someday_meal():
         return jsonify(result)
     
     print(str(today)+"\n"+str(whatday))
-    meal = meal.print_get_meal(today, whatday)
+    meal = school_meal.print_get_meal(today, whatday)
     print(meal)
     result = {
         "version": "2.0",
@@ -281,7 +281,7 @@ def schedule():
 
 @app.route('/cnt', methods=['POST']) 
 def cnt():
-    data = cnt.cnt1()
+    data = count.cnt1()
     print(data)
     
     result = {
@@ -297,7 +297,7 @@ def cnt():
 
 @app.route('/total_cnt', methods=['POST']) 
 def total_cnt():
-    data = cnt.cnt2()
+    data = count.cnt2()
     print(data)
     
     result = {

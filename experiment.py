@@ -1,4 +1,4 @@
-import bus, meal
+import school_meal
 import datetime
 from datetime import date
 
@@ -15,5 +15,5 @@ if __name__ == '__main__':
         whatday = eval(ss)
     except:
         print("Error")
-    meal = meal.print_get_meal(today, whatday)
+    meal = school_meal.print_get_meal(today, whatday)
     print(meal)
