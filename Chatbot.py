@@ -10,7 +10,7 @@ import datetime, time
 import random, threading
 from datetime import date
 import sys
-import count, bus, getdust, school_meal
+import count, bus, getdust, school_meal, school_schedule
 
 ERROR_MESSAGE = '네트워크 접속에 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.'
 
@@ -153,6 +153,22 @@ def dust():
         }
     }
     return jsonify(result)
+
+@app.route('/schedule', methods=['POST'])
+def schedule():
+
+    today = date.today()
+    today = str(today).replace("-", "")
+
+    data = school_schedule.school_schedule(today)
+    
+    result = {
+        "version": "2.0",
+        "data": {
+            "schedule": data
+        }
+    }
+    return jsonify(result)
   
 @app.route('/test', methods=['POST'])
 def test():
@@ -237,17 +253,6 @@ def someday_meal():
     }
     
     return jsonify(result)
-
-@app.route('/schedule', methods=['POST']) # NEIS 크롤링 문제 발생 TODO: DB를 구축할것
-def schedule():
-    
-    
-    result = {
-        "version": "2.0",
-        "data": {
-            "schedule": "현재 기능이 제공되지 않습니다"
-        }
-    }
     
     return jsonify(result)
 

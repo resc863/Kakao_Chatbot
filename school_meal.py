@@ -20,7 +20,6 @@ def eat(today):
     if ('mealServiceDietInfo' in data) == False:
         output = data['RESULT']['MESSAGE']
         
-
     else:
         for i in range (len(data['mealServiceDietInfo'][1]['row'])):
             if (data['mealServiceDietInfo'][1]['row'][i]['MMEAL_SC_CODE'] == '2') :
