@@ -130,7 +130,7 @@ def tomorrow_meal():
         }
         return jsonify(result)
 
-    tomorrow_meal = school_meal.print_get_meal(tomorrow, whatday)
+    tomorrow_meal = school_meal.eat(tomorrow)
     print(tomorrow_meal)
     result = {
         "version": "2.0",
@@ -200,21 +200,9 @@ def meal():
     params = request_body['action']['params'] # action > params로 파라미터에 접근
     
     today = date.today()
-    today = str(today).replace("-", ".")
+    today = str(today).replace("-", "")
     
-    try : 
-      whatday = datetime.datetime.now().weekday()
-    except :
-        result = {   # 전송 양식
-            "version": "2.0", # 스킬 버전
-            "data": {
-                "meal": "급식이 없습니다."
-            }
-        }
-        return jsonify(result)
-    
-    print(str(today)+"\n"+str(whatday))
-    meal = school_meal.print_get_meal(today, whatday)
+    meal = school_meal.eat(today)
     print(meal)
     result = {
         "version": "2.0",
@@ -236,26 +224,10 @@ def someday_meal():
     j1 = json.loads(j)
     
     today = j1['value']
-    d = today.split('-')
-    year = d[0]
-    month = d[1]
-    day = d[2]
 
-    today = str(today).replace("-", ".")
+    today = str(today).replace("-", "")
     
-    try : 
-      whatday = datetime.datetime(int(year), int(month), int(day)).weekday()
-    except :
-        result = {   # 전송 양식
-            "version": "2.0", # 스킬 버전
-            "data": {
-                "meal": "급식이 없습니다."
-            }
-        }
-        return jsonify(result)
-    
-    print(str(today)+"\n"+str(whatday))
-    meal = school_meal.print_get_meal(today, whatday)
+    meal = school_meal.eat(today)
     print(meal)
     result = {
         "version": "2.0",
