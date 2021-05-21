@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\Home\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+    "python.pythonPath": "/usr/bin/python3",
     "files.associations": {
         "ostream": "cpp",
         "array": "cpp",
