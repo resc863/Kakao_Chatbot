@@ -117,6 +117,8 @@ def tomorrow_meal():
         d = '0'+d
     tomorrow = y+'.'+m+'.'+d
 
+    tomorrow = str(tomorrow).replace(".", "")
+    
     try : 
         whatday = time.localtime().tm_wday+1
         if whatday == 7 :
